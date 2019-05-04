@@ -1,10 +1,12 @@
 
       # Настройки компиляции программ
-          comp := gfortran
-          opt  := -c -Wall -Wtabs
-        pattern:= *.f95
-        source := $(wildcard $(pattern))
-           obj := $(patsubst %.f95, %.o, $(source))
+          comp  := gfortran
+          opt   := -c -Wall -Wtabs
+        pattern := f95
+     allpattern := *.$(pattern)
+     anypattern := %.$(pattern)
+        source  := $(wildcard $(allpattern))
+           obj  := $(patsubst $(anypattern), %.o, $(source))
 
       # Блок правил для компиляции объектных файлов
       
@@ -18,7 +20,7 @@
 	       $(comp) $(opt) $<
 
       # Блок правил-зависимостей (при необходимости)
-        main.o : subprograms.mod
+        main.o : testm.mod
 
       # Блок правил для инициализации make-файла для сборки программы
       
@@ -52,7 +54,7 @@
         rep := $(wordlist 2,2,$(MAKECMDGOALS))
         m := $(wordlist 3,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
         $(eval $(rep):;#)
-        $(eval $(m):;# Успешно.)
+        $(eval $(m):;#)
         endif
 
           git-r :
@@ -64,7 +66,7 @@
 	  
         ifeq (git,$(firstword $(MAKECMDGOALS)))
         m := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-        $(eval $(m):;# Успешно.)
+        $(eval $(m):;#)
         endif
 
           git :
