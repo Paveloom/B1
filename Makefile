@@ -25,13 +25,16 @@
 
       # Блок правил для инициализации make-файла для сборки программы
       
-        result : main input
-	        time ./$<  < input > output
+           input :
+	              touch input
+      
+          result : main input
+	              time ./$<  < input > output
 	        
         result-r : main input
-		rm output
-		make result
-		cat output
+		         rm output
+		         make result
+		         cat output
 
       # Блок правил для очистки директории
         clean :
@@ -42,7 +45,7 @@
 
 
 
-      # Блок правил для загрузки программы на Github
+      # Блок правил для загрузки кода на Github
 
         # Правила для проверки статуса репозитория
           git-s :
