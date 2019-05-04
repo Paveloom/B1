@@ -1,12 +1,13 @@
 
       # Настройки компиляции программ
-          comp  := gfortran
-          opt   := -c -Wall -Wtabs
+           comp := gfortran
+            opt := -c -Wall -Wtabs
         pattern := f95
      allpattern := *.$(pattern)
      anypattern := %.$(pattern)
-        source  := $(wildcard $(allpattern))
-           obj  := $(patsubst $(anypattern), %.o, $(source))
+         source := $(wildcard $(allpattern))
+            mod := $(patsubst $(anypattern), %.mod, $(source))
+            obj := $(patsubst $(anypattern), %.o, $(source))
 
       # Блок правил для компиляции объектных файлов
       
@@ -34,7 +35,7 @@
 
       # Блок правил для очистки директории
         clean :
-	 rm -f *.o *.mod main
+	 rm -f $(obj) $(mod) main
 
         clean-all :
 	 rm -f *.o *.mod main *.eps *.dat result
