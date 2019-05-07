@@ -9,6 +9,9 @@
      source := $(wildcard $(allpattern))
      mod := $(patsubst $(anypattern), %.mod, $(source))
      obj := $(patsubst $(anypattern), %.o, $(source))
+     
+     # Заглушка на вывод сообщений указанными правилами
+     .SILENT: 
 
      # Блок правил для компиляции объектных файлов
       
@@ -60,8 +63,8 @@
      ifeq (git-r,$(firstword $(MAKECMDGOALS)))
           rep := $(wordlist 2,2,$(MAKECMDGOALS))
           m := $(wordlist 3,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-          $(eval $(rep):;#)
-          $(eval $(m):;#)
+          $(eval $(rep):;@#)
+          $(eval $(m):;@#)
      endif
 
      git-r :
@@ -73,7 +76,7 @@
 	  
      ifeq (git,$(firstword $(MAKECMDGOALS)))
           m := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-          $(eval $(m):;#)
+          $(eval $(m):;@#)
      endif
 
      git :
@@ -91,8 +94,8 @@
      ifeq (git-new-r,$(firstword $(MAKECMDGOALS)))
           new_rep := $(wordlist 2,2,$(MAKECMDGOALS))
           label := $(wordlist 3,3,$(MAKECMDGOALS))
-          $(eval $(new_rep):;#)
-          $(eval $(label):;# Успешно.)
+          $(eval $(new_rep):;@#)
+          $(eval $(label):;@#)
      endif
 
      git-new-r :
@@ -108,7 +111,7 @@
 
      ifeq (git-new,$(firstword $(MAKECMDGOALS)))
           new_rep := $(wordlist 2,2,$(MAKECMDGOALS))
-          $(eval $(new_rep):;# Успешно.)
+          $(eval $(new_rep):;@#)
      endif
 
      git-new :
