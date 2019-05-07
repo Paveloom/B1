@@ -11,17 +11,18 @@
      obj := $(patsubst $(anypattern), %.o, $(source))
      
      # Заглушка на вывод сообщений указанными правилами
-     .SILENT: 
+     # (без указания имён подавляет вывод со стороны make-файла у всех правил)
+     .SILENT:
 
      # Блок правил для компиляции объектных файлов
       
      main : $(obj)
 	       $(comp) $^ -o $@
 
-     %.o : %.f95
+     %.o : $(anypattern)
 	      $(comp) $(opt) $< -o $@
 
-     %.mod : %.f95
+     %.mod : $(anypattern)
 	        $(comp) $(opt) $<
 
      # Блок правил-зависимостей (при необходимости)
@@ -62,26 +63,19 @@
 
      ifeq (git-r,$(firstword $(MAKECMDGOALS)))
           rep := $(wordlist 2,2,$(MAKECMDGOALS))
-          m := $(wordlist 3,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
           $(eval $(rep):;@#)
-          $(eval $(m):;@#)
      endif
 
      git-r :
 		   git add -A
-		   git commit -m "$(m)"
+		   git commit -e
 		   git push -u $(rep) master
 		
 	# Правило для загрузки на Github с указанием сообщения коммита, но без указания метки репозитория (см. Readme)
-	  
-     ifeq (git,$(firstword $(MAKECMDGOALS)))
-          m := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-          $(eval $(m):;@#)
-     endif
 
      git :
 		 git add -A
-		 git commit -m "$(m)"
+		 git commit -e
 		 git push -u origin master
 
      # Правило для удаления репозитория в текущей директории
