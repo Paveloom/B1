@@ -77,6 +77,27 @@
 		 git add -A
 		 git commit -e
 		 git push -u origin master
+		 
+     # Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
+     # (без указания метки репозитория; использовать только при уверенности в безопасности)
+		 
+     git-am : 
+	         git add -A
+	         git commit --amend
+	         git push --force-with-lease origin master
+	         
+     # Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
+     # (без указания метки репозитория; использовать только при уверенности в безопасности)
+
+     ifeq (git-am-r,$(firstword $(MAKECMDGOALS)))
+          label := $(wordlist 2,2,$(MAKECMDGOALS))
+          $(eval $(label):;@#)
+     endif
+ 
+     git-am-r : 
+	         git add -A
+	         git commit --amend
+	         git push --force-with-lease $(label) master
 
      # Правило для удаления репозитория в текущей директории
      git-clean :
