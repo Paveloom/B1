@@ -1,7 +1,7 @@
 program Test
-use TestM
+use module
 implicit none
 
-     call TestC
+     call example
 
 end

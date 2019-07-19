@@ -1,9 +1,9 @@
-module TestM
+module module
 implicit none
 
 contains
 
-     subroutine TestC
+     subroutine example
      implicit none
      
      write(*,'(/,4x,a,/)') 'Я работаю.'
