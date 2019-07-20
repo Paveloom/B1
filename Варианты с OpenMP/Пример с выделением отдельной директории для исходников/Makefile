@@ -5,13 +5,13 @@
 
      # Настройки компиляции программ
      
-     comp := mpiifort
-     opt := -debug -warn all
+     comp := ifort
+     opt := -qopenmp -debug -g -traceback -check all -fp-stack-check -warn all
      pattern := f90
      main_name := main
      
      # Директория с исходниками
-     source_path := ./
+     source_path := ./Исходники/
      
      # Правила-зависимости (при необходимости)
      $(source_path)$(main_name).o : $(source_path)module.mod
@@ -45,7 +45,7 @@
 	        touch input
       
      result : $(main_name) input
-	         time mpiexec -np 4 ./$< > output
+	         time ./$< < input > output
 	        
      result-r : input
 		      rm output

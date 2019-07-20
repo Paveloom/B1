@@ -1,5 +1,4 @@
 program main
-use mpi
 use module
 implicit none
      
