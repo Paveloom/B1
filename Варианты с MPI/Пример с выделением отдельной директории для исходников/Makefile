@@ -6,7 +6,7 @@
      # Настройки компиляции программ
      
      comp := mpiifort
-     opt := -debug -warn all
+     opt := -warn all -debug -g -stand -traceback -check all -fp-stack-check
      pattern := f90
      main_name := main
      

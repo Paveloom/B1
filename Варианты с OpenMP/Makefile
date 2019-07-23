@@ -6,7 +6,7 @@
      # Настройки компиляции программ
      
      comp := ifort
-     opt := -qopenmp -debug -g -traceback -check all -fp-stack-check -warn all
+     opt := -qopenmp -warn all -debug -g -stand -traceback -check all -fp-stack-check
      pattern := f90
      main_name := main
      

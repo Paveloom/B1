@@ -6,7 +6,7 @@
      # Настройки компиляции программ
      
      comp := gfortran
-     opt := -Wall -Wtabs -std=f2008
+     opt := -Og -g -Wall -Wextra -fcheck=all -fbacktrace -pedantic -std=f2008
      pattern := f95
      main_name := main
      
