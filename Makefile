@@ -70,7 +70,7 @@
 			  git init
 			  git remote add $(label) git@github.com:Paveloom/$(new_rep).git
 			  git add Makefile
-			  git commit -m "Стартовый make-файл."
+			  git commit -m "Стартовый коммит."
 			  git push -u $(label) master
 			
      # Правило для подключения нового репозитория с указанием названия, но без указания метки,
@@ -86,6 +86,6 @@
 			git init
 			git remote add origin git@github.com:Paveloom/$(new_rep).git
 			git add Makefile
-			git commit -m "Стартовый make-файл."
+			git commit -m "Стартовый коммит."
 			git push -u origin master
 
