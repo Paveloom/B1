@@ -9,6 +9,8 @@
      opt := -qopenmp -warn all -debug -g -stand -traceback -check all -fp-stack-check
      pattern := f90
      main_name := main
+     use_input := false
+     save_main := false
      
      # Директория с исходниками
      source_path := ./Исходники/
@@ -44,10 +46,15 @@
      input :
 	        touch input
       
-     result : $(main_name) input
-	         time ./$< < input > output
+     result : $(main_name)
+	         if [ "true" = "$(use_input)" ]; then\
+	              make input;\
+	              time ./$< < input > output;\
+	         else\
+	              time ./$< > output;\
+	         fi
 	        
-     result-r : input
+     result-r : 
 		      make result
 		      cat output
 		      
@@ -62,7 +69,11 @@
      # Блок правил для очистки директории
      
      clean :
-	        rm -f $(obj_main) $(obj_mod) $(mod) $(main_name)
+	        if [ "true" = "$(save_main)" ]; then\
+	             rm -f $(obj_main) $(obj_mod) $(mod);\
+	        else\
+	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
+	        fi
 
      clean-all :
 	            rm -f *.o *.mod $(main_name) *.eps *.dat result
@@ -70,6 +81,8 @@
 
 
      # Блок правил для загрузки кода на Github
+
+     username := Paveloom
 
      # Правила для проверки статуса репозитория
           
@@ -105,7 +118,7 @@
 	         git push --force-with-lease origin master
 	         
      # Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
-     # (без указания метки репозитория; использовать только при уверенности в безопасности)
+     # (с указанием метки репозитория; использовать только при уверенности в безопасности)
 
      ifeq (git-am-r,$(firstword $(MAKECMDGOALS)))
           label := $(wordlist 2,2,$(MAKECMDGOALS))
@@ -134,7 +147,7 @@
      git-new-r :
 		       make git-clean
 			  git init
-			  git remote add $(label) git@github.com:Paveloom/$(new_rep).git
+			  git remote add $(label) git@github.com:$(username)/$(new_rep).git
 			  git add Makefile
 			  git commit -m "Стартовый коммит."
 			  git push -u $(label) master
@@ -150,7 +163,7 @@
      git-new :
 			make git-clean
 			git init
-			git remote add origin git@github.com:Paveloom/$(new_rep).git
+			git remote add origin git@github.com:$(username)/$(new_rep).git
 			git add Makefile
 			git commit -m "Стартовый коммит."
 			git push -u origin master

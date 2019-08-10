@@ -4,6 +4,8 @@
      .SILENT: 
 
      # Блок правил для загрузки кода на Github
+     
+     username := Paveloom
 
      # Правила для проверки статуса репозитория
           
@@ -39,7 +41,7 @@
 	         git push --force-with-lease origin master
 	         
      # Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
-     # (без указания метки репозитория; использовать только при уверенности в безопасности)
+     # (c указанием метки репозитория; использовать только при уверенности в безопасности)
 
      ifeq (git-am-r,$(firstword $(MAKECMDGOALS)))
           label := $(wordlist 2,2,$(MAKECMDGOALS))
@@ -68,7 +70,7 @@
      git-new-r :
 		       make git-clean
 			  git init
-			  git remote add $(label) git@github.com:Paveloom/$(new_rep).git
+			  git remote add $(label) git@github.com:$(username)/$(new_rep).git
 			  git add Makefile
 			  git commit -m "Стартовый коммит."
 			  git push -u $(label) master
@@ -84,7 +86,7 @@
      git-new :
 			make git-clean
 			git init
-			git remote add origin git@github.com:Paveloom/$(new_rep).git
+			git remote add origin git@github.com:$(username)/$(new_rep).git
 			git add Makefile
 			git commit -m "Стартовый коммит."
 			git push -u origin master
