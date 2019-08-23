@@ -1,23 +1,50 @@
 
-     # Заглушка на вывод сообщений указанными правилами
-     # (без указания имён подавляет вывод со стороны make-файла у всех правил)
+     ## Заглушка на вывод сообщений указанными правилами
+     ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
      .SILENT: 
 
      # Настройки компиляции программ
      
+     ## Компилятор
      comp := mpiifort
-     opt := -warn all -debug -g -stand -traceback -check all -fp-stack-check
+     
+     ## Расширение исходных файлов
      pattern := f90
+
+     ## Режим отладки (при значении true использует флаги opt_debug, при другом значении — opt_production)
+     debugging := true
+
+     ## Флаги для отладки
+     opt_debug := -warn all -debug -g -stand -traceback -check all -fp-stack-check
+     
+     ## Флаги для финальной сборки
+     opt_production := -Ofast
+
+     ## Имя главной программы
      main_name := main
+     
+     ## Использовать input файл?
      use_input := false
+     
+     ## Сохранять собранную программу при очистке?
      save_main := false
+     
+     ## Число процессов
      procs_num := 4
      
-     # Директория с исходниками
+     ## Директория с исходниками
      source_path := ./
      
-     # Правила-зависимости (при необходимости)
+     ## Правила-зависимости (при необходимости)
      $(source_path)$(main_name).o : $(source_path)module.mod
+     
+     # Определение флагов компилятора
+     
+     ifeq (true, $(debugging))
+          opt := $(opt_debug)
+     else
+          opt := $(opt_production)
+     endif
      
      # Распределение исходных файлов по переменным
      
@@ -83,18 +110,19 @@
 
      # Блок правил для загрузки кода на Github
      
+     ## Имя пользователя на GitHub
      username := Paveloom
 
-     # Правила для проверки статуса репозитория
+     ## Правило для проверки статуса репозитория
           
      git-s :
 		   git status
 		   git remote
 
-     # Правило для загрузки на Github с указанием метки репозитория и сообщения коммита (см. Readme)
+     ## Правило для загрузки на Github с указанием метки репозитория и сообщения коммита (см. Readme)
 
-     ifeq (git-r,$(firstword $(MAKECMDGOALS)))
-          rep := $(wordlist 2,2,$(MAKECMDGOALS))
+     ifeq (git-r, $(firstword $(MAKECMDGOALS)))
+          rep := $(wordlist 2, 2, $(MAKECMDGOALS))
           $(eval $(rep):;@#)
      endif
 
@@ -103,26 +131,26 @@
 		   git commit -e
 		   git push -u $(rep) master
 		
-	# Правило для загрузки на Github с указанием сообщения коммита, но без указания метки репозитория (см. Readme)
+	## Правило для загрузки на Github с указанием сообщения коммита, но без указания метки репозитория (см. Readme)
 
      git :
 		 git add -A
 		 git commit -e
 		 git push -u origin master
 		 
-     # Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
-     # (без указания метки репозитория; использовать только при уверенности в безопасности)
+     ## Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
+     ## (без указания метки репозитория; использовать только при уверенности в безопасности)
 		 
      git-am : 
 	         git add -A
 	         git commit --amend
 	         git push --force-with-lease origin master
 	         
-     # Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
-     # (с указанием метки репозитория; использовать только при уверенности в безопасности)
+     ## Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
+     ## (с указанием метки репозитория; использовать только при уверенности в безопасности)
 
-     ifeq (git-am-r,$(firstword $(MAKECMDGOALS)))
-          label := $(wordlist 2,2,$(MAKECMDGOALS))
+     ifeq (git-am-r, $(firstword $(MAKECMDGOALS)))
+          label := $(wordlist 2, 2, $(MAKECMDGOALS))
           $(eval $(label):;@#)
      endif
  
@@ -131,16 +159,16 @@
 	         git commit --amend
 	         git push --force-with-lease $(label) master
 
-     # Правило для удаления репозитория в текущей директории
+     ## Правило для удаления репозитория в текущей директории
      git-clean :
 		       rm -rf .git
 
-     # Правило для подключения нового репозитория с указанием названия и метки
-     # и загрузки в него стартового make-файла (см. Readme)
+     ## Правило для подключения нового репозитория с указанием названия и метки
+     ## и загрузки в него стартового make-файла (см. Readme)
 
-     ifeq (git-new-r,$(firstword $(MAKECMDGOALS)))
-          new_rep := $(wordlist 2,2,$(MAKECMDGOALS))
-          label := $(wordlist 3,3,$(MAKECMDGOALS))
+     ifeq (git-new-r, $(firstword $(MAKECMDGOALS)))
+          new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
+          label := $(wordlist 3, 3, $(MAKECMDGOALS))
           $(eval $(new_rep):;@#)
           $(eval $(label):;@#)
      endif
@@ -153,11 +181,11 @@
 			  git commit -m "Стартовый коммит."
 			  git push -u $(label) master
 			
-     # Правило для подключения нового репозитория с указанием названия, но без указания метки,
-     # и загрузки в него стартового make-файла (см. Readme)
+     ## Правило для подключения нового репозитория с указанием названия, но без указания метки,
+     ## и загрузки в него стартового make-файла (см. Readme)
 
-     ifeq (git-new,$(firstword $(MAKECMDGOALS)))
-          new_rep := $(wordlist 2,2,$(MAKECMDGOALS))
+     ifeq (git-new, $(firstword $(MAKECMDGOALS)))
+          new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
           $(eval $(new_rep):;@#)
      endif
 
