@@ -31,7 +31,7 @@
      git :
 		 git add -A
 		 git commit -e
-		 git push -u origin master
+		 git push
 		 
      ## Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
      ## (без указания метки репозитория; использовать только при уверенности в безопасности)
@@ -39,7 +39,7 @@
      git-am : 
 	         git add -A
 	         git commit --amend
-	         git push --force-with-lease origin master
+	         git push --force-with-lease
 	         
      ## Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
      ## (с указанием метки репозитория; использовать только при уверенности в безопасности)
@@ -91,4 +91,14 @@
 			git add Makefile
 			git commit -m "Стартовый коммит."
 			git push -u origin master
+			
+     git-dev :
+			git checkout master
+			git checkout -b feature
+			git merge --squash dev
+			git commit
+			git checkout master
+			git merge feature
+			git branch -D feature
+			git push --force-with-lease
 
