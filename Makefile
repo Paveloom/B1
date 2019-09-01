@@ -29,12 +29,27 @@
      git-dev :
 			git checkout master
 			git checkout -b feature
-			git merge --squash dev
+			git merge --squash dev -Xtheirs
 			git commit
 			git checkout master
 			git merge feature
 			git branch -D feature
 			git push --force-with-lease
+			git checkout dev
+			
+	## Правило для обновления ветки dev до текущего состояния ветки master
+	## (аналогично правилу git-dev, только в обратную сторону; разумно использовать, только
+	## если были проделаны изменения на ветке master после последнего слияния)
+	
+     git-dev-ready : 
+	                git checkout dev
+	                git checkout -b dev-upd
+	                git merge --squash master -Xtheirs
+	                git commit
+	                git checkout dev
+	                git merge dev-upd
+	                git branch -D dev-upd
+	                git push --force-with-lease
 
      ## Правило для подключения нового удалённого репозитория и загрузки в него стартового make-файла (см. README.md)
 
