@@ -1,7 +1,8 @@
 
      ## Заглушка на вывод сообщений указанными правилами
      ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
-     .SILENT: 
+     
+     .SILENT : 
 
      # Блок правил для загрузки кода на Github
      
@@ -10,7 +11,7 @@
 		
 	## Правило для загрузки коммита на удалённый репозиторий
 
-     git :
+     git : 
 		 git add -A
 		 git commit -e
 		 git push
@@ -26,7 +27,7 @@
 	## Правило для передачи изменений, проделанных в ветке dev, в ветку master
 	## (слияние без создания коммита слияния; способ через создание второстепенной ветки feature)
 			
-     git-dev :
+     git-dev : 
 			git checkout master
 			git checkout -b feature
 			git merge --squash dev -Xtheirs
@@ -51,14 +52,15 @@
 	                git branch -D dev-upd
 	                git push --force-with-lease
 
-     ## Правило для подключения нового удалённого репозитория и загрузки в него стартового make-файла (см. README.md)
+     ## Правило для подключения нового удалённого репозитория с одной веткой и
+     ## загрузки в него стартового make-файла (см. README.md)
 
      ifeq (git-new, $(firstword $(MAKECMDGOALS)))
           new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
           $(eval $(new_rep):;@#)
      endif
 
-     git-new :
+     git-new : 
 			make git-clean
 			git init
 			git remote add origin git@github.com:$(username)/$(new_rep).git
@@ -66,8 +68,26 @@
 			git commit -m "Стартовый коммит."
 			git push -u origin master
 			
+     ## Правило для подключения нового удалённого репозитория с двумя ветками и
+     ## загрузки в него стартового make-файла (см. README.md)
+
+     ifeq (git-new-2, $(firstword $(MAKECMDGOALS)))
+          new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
+          $(eval $(new_rep):;@#)
+     endif
+
+     git-new-2 : 
+			make git-clean
+			git init
+			git remote add origin git@github.com:$(username)/$(new_rep).git
+			git add Makefile
+			git commit -m "Стартовый коммит."
+			git push -u origin master
+			git checkout -b dev
+			git push -u origin dev
+			
      ## Правило для удаления репозитория в текущей директории
      
-     git-clean :
+     git-clean : 
 		       rm -rf .git
 
