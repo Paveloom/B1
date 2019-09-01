@@ -86,6 +86,42 @@
 			git checkout -b dev
 			git push -u origin dev
 			
+	## Правило для повторения последнего переноса изменений из ветки dev в ветку master
+	## (используется reset --hard, поэтому следует использовать только при уверенности в
+	## правильности своих действий — поэтому задаётся вопрос)
+	
+     git-dev-re :
+			   echo
+			   echo "     Будет использован reset --hard. Убедитесь, что последний коммит в ветке master получен переносом изменений из ветки dev."
+			   
+			   while [ -z "$$CONTINUE" ]; do \
+	                  read -r -p "     Продолжить? [y]: " CONTINUE; \
+	             done ; \
+	             [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "     Отменено."; echo; exit 1;)
+	             
+	             echo
+			   git checkout master
+			   git reset --hard HEAD~1
+			   make git-dev
+			   
+	## Правило для повторения последнего переноса изменений из ветки master в ветку dev
+	## (используется reset --hard, поэтому следует использовать только при уверенности в
+	## правильности своих действий — поэтому задаётся вопрос)
+	
+     git-dev-ready-re :
+			         echo
+			         echo "     Будет использован reset --hard. Убедитесь, что последний коммит в ветке dev получен переносом изменений из ветки master."
+			   
+			         while [ -z "$$CONTINUE" ]; do \
+	                        read -r -p "     Продолжить? [y]: " CONTINUE; \
+	                   done ; \
+	                   [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "     Отменено."; echo; exit 1;)
+	             
+	                   echo
+			         git checkout dev
+			         git reset --hard HEAD~1
+			         make git-dev-ready
+			
      ## Правило для удаления репозитория в текущей директории
      
      git-clean : 
