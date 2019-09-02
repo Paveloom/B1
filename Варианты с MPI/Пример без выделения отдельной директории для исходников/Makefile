@@ -1,6 +1,7 @@
 
      ## Заглушка на вывод сообщений указанными правилами
      ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
+     
      .SILENT: 
 
      # Настройки компиляции программ
@@ -108,92 +109,125 @@
 
 
 
-     # Блок правил для загрузки кода на Github
+     # Блок правил для разработки и публикации кода на Github
      
      ## Имя пользователя на GitHub
      username := Paveloom
-
-     ## Правило для проверки статуса репозитория
-          
-     git-s :
-		   git status
-		   git remote
-
-     ## Правило для загрузки на Github с указанием метки репозитория и сообщения коммита (см. Readme)
-
-     ifeq (git-r, $(firstword $(MAKECMDGOALS)))
-          rep := $(wordlist 2, 2, $(MAKECMDGOALS))
-          $(eval $(rep):;@#)
-     endif
-
-     git-r :
-		   git add -A
-		   git commit -e
-		   git push -u $(rep) master
 		
-	## Правило для загрузки на Github с указанием сообщения коммита, но без указания метки репозитория (см. Readme)
+	## Правило для создания и публикации коммита
 
-     git :
+     git : 
 		 git add -A
 		 git commit -e
-		 git push -u origin master
+		 git push
 		 
-     ## Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
-     ## (без указания метки репозитория; использовать только при уверенности в безопасности)
+     ## Правило для обновления последнего коммита до текущего состояния локального репозитория
 		 
      git-am : 
 	         git add -A
 	         git commit --amend
-	         git push --force-with-lease origin master
+	         git push --force-with-lease
 	         
-     ## Правило для обновления последнего коммита до текущего состояния локального репозитория (см. Readme)
-     ## (с указанием метки репозитория; использовать только при уверенности в безопасности)
-
-     ifeq (git-am-r, $(firstword $(MAKECMDGOALS)))
-          label := $(wordlist 2, 2, $(MAKECMDGOALS))
-          $(eval $(label):;@#)
-     endif
- 
-     git-am-r : 
-	         git add -A
-	         git commit --amend
-	         git push --force-with-lease $(label) master
-
-     ## Правило для удаления репозитория в текущей директории
-     git-clean :
-		       rm -rf .git
-
-     ## Правило для подключения нового репозитория с указанием названия и метки
-     ## и загрузки в него стартового make-файла (см. Readme)
-
-     ifeq (git-new-r, $(firstword $(MAKECMDGOALS)))
-          new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
-          label := $(wordlist 3, 3, $(MAKECMDGOALS))
-          $(eval $(new_rep):;@#)
-          $(eval $(label):;@#)
-     endif
-
-     git-new-r :
-		       make git-clean
-			  git init
-			  git remote add $(label) git@github.com:$(username)/$(new_rep).git
-			  git add Makefile
-			  git commit -m "Стартовый коммит."
-			  git push -u $(label) master
+	## Правило для обновления ветки master до текущего состояния ветки dev
+	## (слияние без создания коммита слияния; способ через создание второстепенной ветки feature)
 			
-     ## Правило для подключения нового репозитория с указанием названия, но без указания метки,
-     ## и загрузки в него стартового make-файла (см. Readme)
+     git-dev : 
+			git checkout master
+			git checkout -b feature
+			git merge --squash dev -Xtheirs
+			git commit
+			git checkout master
+			git merge feature
+			git branch -D feature
+			git push --force-with-lease
+			git checkout dev
+			
+	## Правило для обновления ветки dev до текущего состояния ветки master
+	## (аналогично правилу git-dev, только в обратную сторону; разумно использовать, только
+	## если были проделаны изменения на ветке master после последнего слияния)
+	
+     git-dev-ready : 
+	                git checkout dev
+	                git checkout -b dev-upd
+	                git merge --squash master -Xtheirs
+	                git commit
+	                git checkout dev
+	                git merge dev-upd
+	                git branch -D dev-upd
+	                git push --force-with-lease
+
+     ## Правило для подключения удалённого репозитория с одной веткой и
+     ## загрузки в него стартового make-файла (см. Правила)
 
      ifeq (git-new, $(firstword $(MAKECMDGOALS)))
           new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
           $(eval $(new_rep):;@#)
      endif
 
-     git-new :
+     git-new : 
 			make git-clean
 			git init
 			git remote add origin git@github.com:$(username)/$(new_rep).git
 			git add Makefile
 			git commit -m "Стартовый коммит."
 			git push -u origin master
+			
+     ## Правило для подключения нового удалённого репозитория с двумя ветками и
+     ## загрузки в него стартового make-файла (см. Правила)
+
+     ifeq (git-new-2, $(firstword $(MAKECMDGOALS)))
+          new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
+          $(eval $(new_rep):;@#)
+     endif
+
+     git-new-2 : 
+			make git-clean
+			git init
+			git remote add origin git@github.com:$(username)/$(new_rep).git
+			git add Makefile
+			git commit -m "Стартовый коммит."
+			git push -u origin master
+			git checkout -b dev
+			git push -u origin dev
+			
+	## Правило для повторения последнего переноса изменений из ветки dev в ветку master
+	## (используется reset --hard, поэтому следует использовать только при уверенности в
+	## правильности своих действий — поэтому задаётся вопрос)
+	
+     git-dev-re :
+			   echo
+			   echo "     Будет использован reset --hard. Убедитесь, что последний коммит в ветке master получен переносом изменений из ветки dev."
+			   
+			   while [ -z "$$CONTINUE" ]; do \
+	                  read -r -p "     Продолжить? [y]: " CONTINUE; \
+	             done ; \
+	             [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "     Отменено."; echo; exit 1;)
+	             
+	             echo
+			   git checkout master
+			   git reset --hard HEAD~1
+			   make git-dev
+			   
+	## Правило для повторения последнего переноса изменений из ветки master в ветку dev
+	## (используется reset --hard, поэтому следует использовать только при уверенности в
+	## правильности своих действий — поэтому задаётся вопрос)
+	
+     git-dev-ready-re :
+			         echo
+			         echo "     Будет использован reset --hard. Убедитесь, что последний коммит в ветке dev получен переносом изменений из ветки master."
+			   
+			         while [ -z "$$CONTINUE" ]; do \
+	                        read -r -p "     Продолжить? [y]: " CONTINUE; \
+	                   done ; \
+	                   [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "     Отменено."; echo; exit 1;)
+	             
+	                   echo
+			         git checkout dev
+			         git reset --hard HEAD~1
+			         make git-dev-ready
+			
+     ## Правило для удаления репозитория в текущей директории
+     
+     git-clean : 
+		       rm -rf .git
 
