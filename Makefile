@@ -8,6 +8,10 @@
      
      ## Имя пользователя на GitHub
      username := Paveloom
+     
+     ## Форсировать изменения в текущей версии? (см. Сценарии использования для правил git-dev и git-dev-ready)
+     ## (смотри действия, выполняемые при значении true, в правиле force_change)
+     force_changes := true
 		
 	## Правило для создания и публикации коммита
 
@@ -120,7 +124,22 @@
 			         git checkout dev
 			         git reset --hard HEAD~1
 			         make git-dev-ready
-			
+	
+     ## Правило для форсирования изменений (добавляет / удаляет пробелы в последней пустой строке;
+     ## создает пустую строку, если необходимо; использование зависит от переменной force_changes)
+     
+     force_change : 
+	               if tail Makefile -n 1 | grep '[[:alpha:]]'; then \
+	                    echo "$f" >> Makefile; \
+	               else \
+	                    if tail Makefile -n 1 | grep ' [[:space:]]'; then \
+	                         truncate -s-1 Makefile; \
+	                    else \
+	                         truncate -s-1 Makefile; \
+	                         echo "$f " >> Makefile; \
+	                    fi \
+	               fi
+	
      ## Правило для удаления репозитория в текущей директории
      
      git-clean : 
