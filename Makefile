@@ -9,9 +9,9 @@
      ## Имя пользователя на GitHub
      username := Paveloom
      
-     ## Форсировать изменения в текущей версии? (см. Сценарии использования для правил git-dev и git-dev-ready)
-     ## (смотри действия, выполняемые при значении true, в правиле force_change)
-     force_changes := true
+     ## Форсировать изменения в текущей версии? (см. Сценарии использования для правил git-dev
+     ## и git-dev-ready; см. действия, выполняемые при значении true, в правиле force-change)
+     force-changes := true
 		
 	## Правило для создания и публикации коммита
 
@@ -31,10 +31,9 @@
 	## (слияние без создания коммита слияния; способ через создание второстепенной ветки feature)
 			
      git-dev : 
-     
-	          if [ "true" = "$(force_changes)" ]; then \
+	          if [ "true" = "$(force-changes)" ]; then \
 	               git checkout dev; \
-	               make force_change; \
+	               make force-change; \
 	               git add -A; \
 	               git commit --amend --no-edit; \
 	               git push --force-with-lease; \
@@ -55,10 +54,9 @@
 	## если были проделаны изменения на ветке master после последнего слияния)
 	
      git-dev-ready : 
-     
-	                if [ "true" = "$(force_changes)" ]; then \
+	                if [ "true" = "$(force-changes)" ]; then \
 	                     git checkout master; \
-	                     make force_change; \
+	                     make force-change; \
 	                     git add -A; \
 	                     git commit --amend --no-edit; \
 	                     git push --force-with-lease; \
@@ -98,14 +96,14 @@
      endif
 
      git-new-2 : 
-			make git-clean
-			git init
-			git remote add origin git@github.com:$(username)/$(new_rep).git
-			git add Makefile
-			git commit -m "Стартовый коммит."
-			git push -u origin master
-			git checkout -b dev
-			git push -u origin dev
+			  make git-clean
+			  git init
+			  git remote add origin git@github.com:$(username)/$(new_rep).git
+			  git add Makefile
+			  git commit -m "Стартовый коммит."
+			  git push -u origin master
+			  git checkout -b dev
+			  git push -u origin dev
 			
 	## Правило для повторения последнего переноса изменений из ветки dev в ветку master
 	## (используется reset --hard, поэтому следует использовать только при уверенности в
@@ -154,9 +152,9 @@
 			         make git-dev-ready
 	
      ## Правило для форсирования изменений (добавляет / удаляет пробелы в последней пустой строке;
-     ## создает пустую строку, если необходимо; использование зависит от переменной force_changes)
+     ## создает пустую строку, если необходимо; использование зависит от переменной force-changes)
      
-     force_change : 
+     force-change : 
 	               if tail Makefile -n 1 | grep '[[:alpha:]]'; then \
 	                    echo "$f" >> Makefile; \
 	               else \
@@ -172,4 +170,4 @@
      
      git-clean : 
 		       rm -rf .git
- 
+  
