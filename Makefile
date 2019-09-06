@@ -31,6 +31,15 @@
 	## (слияние без создания коммита слияния; способ через создание второстепенной ветки feature)
 			
      git-dev : 
+     
+	          if [ "true" = "$(force_changes)" ]; then \
+	               git checkout dev; \
+	               make force_change; \
+	               git add -A; \
+	               git commit --amend --no-edit; \
+	               git push --force-with-lease; \
+	          fi
+     
 			git checkout master
 			git checkout -b feature
 			git merge --squash dev -Xtheirs
@@ -46,6 +55,15 @@
 	## если были проделаны изменения на ветке master после последнего слияния)
 	
      git-dev-ready : 
+     
+	                if [ "true" = "$(force_changes)" ]; then \
+	                     git checkout master; \
+	                     make force_change; \
+	                     git add -A; \
+	                     git commit --amend --no-edit; \
+	                     git push --force-with-lease; \
+	                fi
+
 	                git checkout dev
 	                git checkout -b dev-upd
 	                git merge --squash master -Xtheirs
