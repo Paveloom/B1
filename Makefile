@@ -113,12 +113,17 @@
 	
      git-dev-re :
 			   echo
-			   echo "     Будет использован reset --hard. Убедитесь, что последний коммит в ветке master получен переносом изменений из ветки dev."
+			   echo "Будет использован reset --hard. Убедитесь, что последний коммит в ветке master получен переносом изменений из ветки dev."
+			   echo "Скопируйте, если необходимо, сообщение последнего коммита на ветке master:"
+			   echo
+			   
+			   git log master -1 --pretty=format:%s; echo
+			   git log master -1 --pretty=format:%b; echo
 			   
 			   while [ -z "$$CONTINUE" ]; do \
-	                  read -r -p "     Продолжить? [y]: " CONTINUE; \
+	                  read -r -p "Продолжить? [y]: " CONTINUE; \
 	             done ; \
-	             [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "     Отменено."; echo; exit 1;)
+	             [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "Отменено."; echo; exit 1;)
 	             
 	             echo
 			   git checkout master
@@ -131,12 +136,17 @@
 	
      git-dev-ready-re :
 			         echo
-			         echo "     Будет использован reset --hard. Убедитесь, что последний коммит в ветке dev получен переносом изменений из ветки master."
-			   
+			         echo "Будет использован reset --hard. Убедитесь, что последний коммит в ветке dev получен переносом изменений из ветки master."
+			         echo "Скопируйте, если необходимо, сообщение последнего коммита на ветке dev:"
+			         echo
+			         
+			         git log dev -1 --pretty=format:%s; echo
+			         git log dev -1 --pretty=format:%b; echo
+			         
 			         while [ -z "$$CONTINUE" ]; do \
-	                        read -r -p "     Продолжить? [y]: " CONTINUE; \
+	                        read -r -p "Продолжить? [y]: " CONTINUE; \
 	                   done ; \
-	                   [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "     Отменено."; echo; exit 1;)
+	                   [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo; echo "Отменено."; echo; exit 1;)
 	             
 	                   echo
 			         git checkout dev
