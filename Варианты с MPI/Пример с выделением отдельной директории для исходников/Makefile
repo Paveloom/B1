@@ -179,7 +179,7 @@
      ## Правило для подключения удалённого репозитория с одной веткой и
      ## загрузки в него стартового make-файла (см. Правила)
 
-     ifeq (git-new-2, $(firstword $(MAKECMDGOALS)))
+     ifeq (git-new, $(firstword $(MAKECMDGOALS)))
           new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
           $(eval $(new_rep):;@#)
      endif
