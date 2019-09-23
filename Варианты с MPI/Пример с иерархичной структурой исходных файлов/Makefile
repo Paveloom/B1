@@ -9,7 +9,7 @@
 
      ## Правила-псевдоцели
 
-     .PHONY : result, result-r, result-d, result-c, clean, clean-all, \
+     .PHONY : result, result-r, result-d, result-c, clean, \
 	         git, git-am, git-dev, git-dev-ready, git-new, git-new-2, \
 		    git-dev-re, git-dev-ready-re, force_change, git-clean
 
@@ -105,21 +105,16 @@
      input :
 	        touch input
 
-     output : 
-	         touch output 
-
      result : $(main_name)
 	         if [ "true" = "$(use_input)" ]; then\
 	              make input;\
 			    if [ "true" = "$(use_output)" ]; then\
-			         make output;\
 	                   time mpiexec -np $(procs_num) ./$< < input > output;\
 			    else\
 			         time mpiexec -np $(procs_num) ./$< < input;\
 			    fi\
 	         else\
 		         if [ "true" = "$(use_output)" ]; then\
-			         make output;\
 	                   time mpiexec -np $(procs_num) ./$< > output;\
 			    else\
 			         time mpiexec -np $(procs_num) ./$<;\
@@ -323,6 +318,3 @@
      
      git-clean : 
 		       rm -rf .git
-
-     test : 
-	      echo $(source)
