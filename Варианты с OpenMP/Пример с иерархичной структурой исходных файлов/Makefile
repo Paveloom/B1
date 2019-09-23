@@ -49,13 +49,14 @@
      save_main := false
      
      ## Директория с исходниками (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
-     source_path := ./Исходники/
+     source_path := Исходники/
 
      ## Указание поддиректорий (всегда в окончании прямой слеш)
-     subs := 
+     subs := sub_1/ sub_1/sub_2/ sub_1/sub_2/sub_3/
      
      ## Правила-зависимости (при необходимости)
-     $(source_path)$(main_name).o : $(source_path)module.mod
+     $(source_path)$(main_name).o : $(source_path)module_a.mod $(source_path)module_b.mod $(source_path)module_c.mod
+     $(source_path)module_b.mod : $(source_path)module_c.mod
      
      # Определение флагов компилятора
      

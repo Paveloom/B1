@@ -1,8 +1,23 @@
 
+     ## Подробное описание шаблона данного make-файла можно найти
+     ## на Wiki-страничках репозитория по адресу https://github.com/Paveloom/B1
+
+     ## Для корректного отображения содержимого рекомендуется использовать
+     ## текстовые редакторы gedit или Visual Studio Code.
+
      ## Заглушка на вывод сообщений указанными правилами
      ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
      
      .SILENT : 
+
+     ## Правила-псевдоцели
+
+     .PHONY : result, result-r, result-d, result-c, clean, \
+	         git, git-am, git-dev, git-dev-ready, git-new, git-new-2, \
+		    git-dev-re, git-dev-ready-re, force_change, git-clean
+
+     ## Правило, выполняющееся при вызове make без аргументов
+     ALL : result-r
 
      # Настройки компиляции программ
      
@@ -26,12 +41,18 @@
      
      ## Использовать input файл?
      use_input := false
+
+	## Использовать output файл?
+     use_output := true
      
      ## Сохранять собранную программу при очистке?
      save_main := false
      
-     ## Директория с исходниками
+     ## Директория с исходниками (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
      source_path := ./
+
+     ## Указание поддиректорий (всегда в окончании прямой слеш)
+     subs := 
      
      ## Правила-зависимости (при необходимости)
      $(source_path)$(main_name).o : $(source_path)module.mod
@@ -45,11 +66,22 @@
      endif
      
      # Распределение исходных файлов по переменным
+
+     ## Директории, где искать исходные файлы
+     VPATH := $(source_path) $(addprefix $(source_path), $(subs))
      
-     allpattern := $(source_path)*.$(pattern)
-     anypattern := $(source_path)%.$(pattern)
+	## Получение полного списка исходных файлов и аналогичного списка
+	## без указания исходника главной программы
+
+     allpattern := $(addsuffix *.$(pattern), $(VPATH))
      source := $(wildcard $(allpattern))
-     mod := $(patsubst %.$(pattern), %.mod, $(filter-out %$(main_name).$(pattern), $(source)))
+     no_main := $(filter-out %$(main_name).$(pattern), $(source))
+
+	## Получение списка .mod файлов и .o файлов, связанных с модулями. Объектный
+	## файл для главной программы записан в переменную obj_main для сохранения
+	## общности семантики. 
+	
+     mod := $(patsubst %.$(pattern), %.mod, $(addprefix $(source_path), $(notdir $(no_main))))
      obj_main := $(patsubst %.$(pattern), %.o, $(filter %$(main_name).$(pattern), $(source)))
      obj_mod := $(patsubst %.mod, %.o, $(mod))
      
@@ -58,29 +90,41 @@
      $(main_name) : $(obj_main) $(obj_mod)
 	               $(comp) $(opt) $^ -o $@
 
-     $(source_path)%.mod : $(anypattern)
+     $(source_path)%.mod : %.$(pattern) 
 	                      $(comp) -c $(opt) -module $(source_path) $<
 	                      if [ "./" != "$(source_path)" ]; then\
-	                           mv -f $(patsubst $(source_path)%.mod, %.o, ./$@) $(source_path);\
+	                           mv -f $(notdir $(patsubst %.mod, %.o, ./$@)) $(source_path);\
 	                      fi
 
      $(obj_main) : $(source_path)$(main_name).$(pattern)
 	              $(comp) -c $(opt) $< -o $@
-        
+	
      # Блок правил для сборки программы
       
      input :
 	        touch input
-      
+
      result : $(main_name)
 	         if [ "true" = "$(use_input)" ]; then\
 	              make input;\
-	              time ./$< < input > output;\
+			    if [ "true" = "$(use_output)" ]; then\
+	                   time ./$< < input > output;\
+			    else\
+			         time ./$< < input;\
+			    fi\
 	         else\
-	              time ./$< > output;\
+		         if [ "true" = "$(use_output)" ]; then\
+	                   time ./$< > output;\
+			    else\
+			         time ./$<;\
+			    fi\
 	         fi
 	        
      result-r : 
+	           if [ "true" != "$(use_output)" ]; then\
+			      echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
+				 exit 1;\
+			 fi
 		      make result
 		      cat output
 		      
@@ -89,6 +133,10 @@
 	           make clean
 	           
      result-c : 
+	           if [ "true" != "$(use_output)" ]; then\
+			      echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
+				 exit 1;\
+			 fi
 	           make result-r
 	           make clean
 
@@ -100,9 +148,6 @@
 	        else\
 	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
 	        fi
-
-     clean-all :
-	            rm -f *.o *.mod $(main_name) *.eps *.dat result
 
 
 

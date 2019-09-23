@@ -22,7 +22,7 @@
      # Настройки компиляции программ
      
      ## Компилятор
-     comp := ifort
+     comp := mpiifort
      
      ## Расширение исходных файлов
      pattern := f90
@@ -31,10 +31,10 @@
      debugging := true
      
      ## Флаги для отладки
-     opt_debug := -qopenmp -warn all -debug -g -stand -traceback -check all -fp-stack-check
+     opt_debug := -warn all -debug -g -stand -traceback -check all -fp-stack-check
      
      ## Флаги для финальной сборки
-     opt_production := -qopenmp -Ofast
+     opt_production := -Ofast
      
      ## Имя главной программы
      main_name := main
@@ -47,15 +47,19 @@
      
      ## Сохранять собранную программу при очистке?
      save_main := false
+
+     ## Число процессов
+     procs_num := 4
      
      ## Директория с исходниками (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
-     source_path := ./Исходники/
+     source_path := Исходники/
 
      ## Указание поддиректорий (всегда в окончании прямой слеш)
-     subs := 
+     subs := sub_1/ sub_1/sub_2/ sub_1/sub_2/sub_3/
      
      ## Правила-зависимости (при необходимости)
-     $(source_path)$(main_name).o : $(source_path)module.mod
+     $(source_path)$(main_name).o : $(source_path)module_a.mod $(source_path)module_b.mod $(source_path)module_c.mod
+     $(source_path)module_b.mod : $(source_path)module_c.mod
      
      # Определение флагов компилятора
      
@@ -108,15 +112,15 @@
 	         if [ "true" = "$(use_input)" ]; then\
 	              make input;\
 			    if [ "true" = "$(use_output)" ]; then\
-	                   time ./$< < input > output;\
+	                   time mpiexec -np $(procs_num) ./$< < input > output;\
 			    else\
-			         time ./$< < input;\
+			         time mpiexec -np $(procs_num) ./$< < input;\
 			    fi\
 	         else\
 		         if [ "true" = "$(use_output)" ]; then\
-	                   time ./$< > output;\
+	                   time mpiexec -np $(procs_num) ./$< > output;\
 			    else\
-			         time ./$<;\
+			         time mpiexec -np $(procs_num) ./$<;\
 			    fi\
 	         fi
 	        

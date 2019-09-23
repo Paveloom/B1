@@ -22,19 +22,19 @@
      # Настройки компиляции программ
      
      ## Компилятор
-     comp := ifort
+     comp := gfortran
      
      ## Расширение исходных файлов
-     pattern := f90
+     pattern := f95
      
      ## Режим отладки (при значении true использует флаги opt_debug, при другом значении — opt_production)
      debugging := true
      
      ## Флаги для отладки
-     opt_debug := -qopenmp -warn all -debug -g -stand -traceback -check all -fp-stack-check
+     opt_debug := -Og -g -Wall -Wextra -fcheck=all -fbacktrace -pedantic -std=f2008
      
      ## Флаги для финальной сборки
-     opt_production := -qopenmp -Ofast
+     opt_production := -Ofast
      
      ## Имя главной программы
      main_name := main
@@ -49,13 +49,14 @@
      save_main := false
      
      ## Директория с исходниками (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
-     source_path := ./Исходники/
+     source_path := Исходники/
 
      ## Указание поддиректорий (всегда в окончании прямой слеш)
-     subs := 
+     subs := sub_1/ sub_1/sub_2/ sub_1/sub_2/sub_3/
      
      ## Правила-зависимости (при необходимости)
-     $(source_path)$(main_name).o : $(source_path)module.mod
+     $(source_path)$(main_name).o : $(source_path)module_a.mod $(source_path)module_b.mod $(source_path)module_c.mod
+     $(source_path)module_b.mod : $(source_path)module_c.mod
      
      # Определение флагов компилятора
      
@@ -91,7 +92,7 @@
 	               $(comp) $(opt) $^ -o $@
 
      $(source_path)%.mod : %.$(pattern) 
-	                      $(comp) -c $(opt) -module $(source_path) $<
+	                      $(comp) -c $(opt) -J $(source_path) $<
 	                      if [ "./" != "$(source_path)" ]; then\
 	                           mv -f $(notdir $(patsubst %.mod, %.o, ./$@)) $(source_path);\
 	                      fi
@@ -317,3 +318,4 @@
      
      git-clean : 
 		       rm -rf .git
+
