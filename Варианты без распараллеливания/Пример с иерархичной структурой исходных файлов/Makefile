@@ -5,7 +5,7 @@
      ## Заглушка на вывод сообщений указанными правилами
      ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
      
-     # .SILENT : 
+     .SILENT : 
 
      ## Правила-псевдоцели
 
@@ -38,12 +38,15 @@
      
      ## Использовать input файл?
      use_input := false
+
+	## Использовать output файл?
+     use_output := true
      
      ## Сохранять собранную программу при очистке?
      save_main := false
      
-     ## Директория с исходниками (всегда в окончании прямой слеш и точка в начале)
-     source_path := ./Исходники/
+     ## Директория с исходниками (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
+     source_path := Исходники/
 
      ## Указание поддиректорий (всегда в окончании прямой слеш)
      subs := sub_1/ sub_1/sub_2/ sub_1/sub_2/sub_3/
@@ -98,16 +101,33 @@
       
      input :
 	        touch input
-      
+
+     output : 
+	         touch output 
+
      result : $(main_name)
 	         if [ "true" = "$(use_input)" ]; then\
 	              make input;\
-	              time ./$< < input > output;\
+			    if [ "true" = "$(use_output)" ]; then\
+			         make output;\
+	                   time ./$< < input > output;\
+			    else\
+			         time ./$< < input;\
+			    fi\
 	         else\
-	              time ./$< > output;\
+		         if [ "true" = "$(use_output)" ]; then\
+			         make output;\
+	                   time ./$< > output;\
+			    else\
+			         time ./$<;\
+			    fi\
 	         fi
 	        
      result-r : 
+	           if [ "true" != "$(use_output)" ]; then\
+			      echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
+				 exit 1;\
+			 fi
 		      make result
 		      cat output
 		      
@@ -116,6 +136,10 @@
 	           make clean
 	           
      result-c : 
+	           if [ "true" != "$(use_output)" ]; then\
+			      echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
+				 exit 1;\
+			 fi
 	           make result-r
 	           make clean
 
@@ -127,9 +151,6 @@
 	        else\
 	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
 	        fi
-
-     clean-all :
-	            rm -f *.o *.mod $(main_name) *.eps *.dat result
 
 
 
