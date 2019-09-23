@@ -1,8 +1,20 @@
 
+     ## Подробное описание шаблона данного make-файла можно найти
+	## на Wiki-страничках репозитория по адресу https://github.com/Paveloom/B1
+
      ## Заглушка на вывод сообщений указанными правилами
      ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
      
      .SILENT : 
+
+     ## Правила-псевдоцели
+
+     .PHONY : result, result-r, result-d, result-c, clean, clean-all, \
+	         git, git-am, git-dev, git-dev-ready, git-new, git-new-2, \
+		    git-dev-re, git-dev-ready-re, force_change, git-clean
+
+     ## Правило, выполняющееся при вызове make без аргументов
+     ALL : result-r
 
      # Настройки компиляции программ
      
