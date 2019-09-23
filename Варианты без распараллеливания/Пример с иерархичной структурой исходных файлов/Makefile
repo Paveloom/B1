@@ -42,15 +42,15 @@
      ## Сохранять собранную программу при очистке?
      save_main := false
      
-     ## Директория с исходниками
+     ## Директория с исходниками (всегда в окончании прямой слеш и точка в начале)
      source_path := ./Исходники/
 
-     ## Указание поддиректорий
-     subs := sub/ sub/subb/
+     ## Указание поддиректорий (всегда в окончании прямой слеш)
+     subs := sub_1/ sub_1/sub_2/ sub_1/sub_2/sub_3/
      
      ## Правила-зависимости (при необходимости)
-     $(source_path)$(main_name).o : $(source_path)module.mod
-     $(source_path)$(main_name).o : $(source_path)modulef.mod
+     $(source_path)$(main_name).o : $(source_path)module_a.mod $(source_path)module_b.mod $(source_path)module_c.mod
+     $(source_path)module_b.mod : $(source_path)module_c.mod
      
      # Определение флагов компилятора
      
@@ -62,11 +62,19 @@
      
      # Распределение исходных файлов по переменным
 
+     ## Директории, где искать исходные файлы
      VPATH := $(source_path) $(addprefix $(source_path), $(subs))
      
+	## Получение полного списка исходных файлов и аналогичного списка
+	## без указания исходника главной программы
+
      allpattern := $(addsuffix *.$(pattern), $(VPATH))
      source := $(wildcard $(allpattern))
      no_main := $(filter-out %$(main_name).$(pattern), $(source))
+
+	## Получение списка .mod файлов и .o файлов, связанных с модулями. Объектный
+	## файл для главной программы записан в переменную obj_main для сохранения
+	## общности семантики. 
 	
      mod := $(patsubst %.$(pattern), %.mod, $(addprefix $(source_path), $(notdir $(no_main))))
      obj_main := $(patsubst %.$(pattern), %.o, $(filter %$(main_name).$(pattern), $(source)))
@@ -293,6 +301,4 @@
 		       rm -rf .git
 
      test : 
-	       echo $(VPATH)
-	       echo $(source)
-		  echo $(mod)
+	      echo $(source)
