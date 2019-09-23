@@ -5,7 +5,6 @@ implicit none
      contains
      
      subroutine example(mpiRank)
-     implicit none
      
      integer(4), intent(in) :: mpiRank ! Ранг процесса
      
