@@ -55,8 +55,8 @@
      subs := sub_1/ sub_1/sub_2/ sub_1/sub_2/sub_3/
      
      ## Правила-зависимости (при необходимости)
-     $(source_path)$(main_name).o : $(source_path)module_a.mod $(source_path)module_b.mod $(source_path)module_c.mod
-     $(source_path)module_b.mod : $(source_path)module_c.mod
+     $(source_path)$(main_name).o : $(source_path)module_a.o $(source_path)module_b.o $(source_path)module_c.o
+     $(source_path)module_b.o : $(source_path)module_c.o
      
      # Определение флагов компилятора
      
@@ -91,11 +91,11 @@
      $(main_name) : $(obj_main) $(obj_mod)
 	               $(comp) $(opt) $^ -o $@
 
-     $(source_path)%.mod : %.$(pattern) 
-	                      $(comp) -c $(opt) -module $(source_path) $<
-	                      if [ "./" != "$(source_path)" ]; then\
-	                           mv -f $(notdir $(patsubst %.mod, %.o, ./$@)) $(source_path);\
-	                      fi
+     $(source_path)%.o : %.$(pattern) 
+	                    $(comp) -c $(opt) -module $(source_path) $<
+	                    if [ "./" != "$(source_path)" ]; then\
+	                         mv -f $(notdir $(patsubst %.mod, %.o, ./$@)) $(source_path);\
+	                    fi
 
      $(obj_main) : $(source_path)$(main_name).$(pattern)
 	              $(comp) -c $(opt) $< -o $@
