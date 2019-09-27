@@ -1,5 +1,5 @@
 program Test
-use module
+use module, only : example
 implicit none
 
      call example

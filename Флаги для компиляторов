@@ -1,0 +1,16 @@
+gfortran:
+Debugging: -Og -g -Wall -Wextra -Warray-temporaries -Wcharacter-truncation -Wconversion-extra \
+	      -Wimplicit-interface -Wimplicit-procedure -Wintrinsics-std \
+           -Wreal-q-constant -Wsurprising -Wunderflow -Wuse-without-only -Walign-commons \
+		 -Wfunction-elimination -Wrealloc-lhs -Wrealloc-lhs-all -Werror \
+           -fbacktrace -ffree-line-length-0 -fcheck=all \
+		 -ffpe-trap=invalid,zero,overflow,underflow -pedantic-errors -std=f2008
+Production: -Ofast
+
+mpiifort:
+Debugging: -g -warn all -diag-disable=5268 -check all -fpe0 -traceback -debug extended -stand -fp-stack-check
+Production: -Ofast
+
+ifort (+ OpenMP):
+Debugging: -qopenmp -g -warn all -diag-disable=5268 -check all -fpe0 -traceback -debug extended -stand -fp-stack-check
+Production: -qopenmp -Ofast
