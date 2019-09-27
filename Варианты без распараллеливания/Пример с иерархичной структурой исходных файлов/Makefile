@@ -31,7 +31,12 @@
      debugging := true
      
      ## Флаги для отладки
-     opt_debug := -Og -g -Wall -Wextra -fcheck=all -fbacktrace -pedantic -std=f2008
+     opt_debug := -Og -g -Wall -Wextra -Warray-temporaries -Wcharacter-truncation -Wconversion-extra \
+	             -Wimplicit-interface -Wimplicit-procedure -Wintrinsics-std \
+                  -Wreal-q-constant -Wsurprising -Wunderflow -Wuse-without-only -Walign-commons \
+			   -Wfunction-elimination -Wrealloc-lhs -Wrealloc-lhs-all -Werror \
+                  -fbacktrace -ffree-line-length-0 -fcheck=all \
+			   -ffpe-trap=invalid,zero,overflow,underflow -pedantic-errors -std=f2008
      
      ## Флаги для финальной сборки
      opt_production := -Ofast

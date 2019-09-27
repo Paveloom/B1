@@ -31,7 +31,7 @@
      debugging := true
      
      ## Флаги для отладки
-     opt_debug := -qopenmp -warn all -debug -g -stand -traceback -check all -fp-stack-check
+     opt_debug := -qopenmp -g -warn all -diag-disable=5268 -check all -fpe0 -traceback -debug extended -stand -fp-stack-check
      
      ## Флаги для финальной сборки
      opt_production := -qopenmp -Ofast
