@@ -53,15 +53,18 @@
      ## Сохранять собранную программу при очистке?
      save_main := false
      
-     ## Директория с исходниками (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
+     ## Директория с исходными файлами (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
      source_path := Исходники/
 
-     ## Указание поддиректорий (всегда в окончании прямой слеш)
+     ## Указание поддиректорий в директории с исходными файлами (всегда в окончании прямой слеш)
      subs := sub_1/ sub_1/sub_2/ sub_1/sub_2/sub_3/
+
+     ## Директория с объектными файлами (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
+     obj_path := Объектники/
      
      ## Правила-зависимости (при необходимости)
-     $(source_path)$(main_name).o : $(source_path)module_a.o $(source_path)module_b.o $(source_path)module_c.o
-     $(source_path)module_b.o : $(source_path)module_c.o
+     $(obj_path)$(main_name).o : $(obj_path)module_a.o $(obj_path)module_b.o $(obj_path)module_c.o
+     $(obj_path)module_b.o : $(obj_path)module_c.o
      
      # Определение флагов компилятора
      
@@ -76,34 +79,36 @@
      ## Директории, где искать исходные файлы
      VPATH := $(source_path) $(addprefix $(source_path), $(subs))
      
-	## Получение полного списка исходных файлов и аналогичного списка
-	## без указания исходника главной программы
+	## Получение полного списка исходных файлов
 
      allpattern := $(addsuffix *.$(pattern), $(VPATH))
      source := $(wildcard $(allpattern))
-     no_main := $(filter-out %$(main_name).$(pattern), $(source))
+
+     main_source := $(filter %$(main_name).$(pattern), $(source))
+
+     ## Смена пути исходных файлов
+
+     obj_path_source := $(addprefix $(obj_path), $(notdir $(source)))
 
 	## Получение списка .mod файлов и .o файлов, связанных с модулями. Объектный
 	## файл для главной программы записан в переменную obj_main для сохранения
 	## общности семантики. 
 	
-     mod := $(patsubst %.$(pattern), %.mod, $(addprefix $(source_path), $(notdir $(no_main))))
-     obj_main := $(patsubst %.$(pattern), %.o, $(filter %$(main_name).$(pattern), $(source)))
+     mod := $(filter-out %$(main_name).mod, $(patsubst %.$(pattern), %.mod, $(obj_path_source)))
      obj_mod := $(patsubst %.mod, %.o, $(mod))
+
+     obj_main := $(patsubst %.$(pattern), %.o, $(filter %$(main_name).$(pattern), $(obj_path_source)))
      
      # Блок правил для компиляции объектных файлов
       
      $(main_name) : $(obj_main) $(obj_mod)
 	               $(comp) $(opt) $^ -o $@
 
-     $(source_path)%.o : %.$(pattern) 
-	                    $(comp) -c $(opt) -J $(source_path) $<
-	                    if [ "./" != "$(source_path)" ]; then\
-	                         mv -f $(notdir $(patsubst %.mod, %.o, ./$@)) $(source_path);\
-	                    fi
+     $(obj_path)%.o : %.$(pattern)
+	                 $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)));\
 
-     $(obj_main) : $(source_path)$(main_name).$(pattern)
-	              $(comp) -c $(opt) $< -o $@
+     $(obj_main) : $(main_source)
+	              $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@));\
 	
      # Блок правил для сборки программы
       
@@ -323,4 +328,3 @@
      
      git-clean : 
 		       rm -rf .git
-
