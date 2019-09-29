@@ -22,21 +22,16 @@
      # Настройки компиляции программ
      
      ## Компилятор
-     comp := gfortran
+     comp := mpiifort
      
      ## Расширение исходных файлов
-     pattern := f95
+     pattern := f90
      
      ## Режим отладки (при значении true использует флаги opt_debug, при другом значении — opt_production)
      debugging := true
      
      ## Флаги для отладки
-     opt_debug := -Og -g -Wall -Wextra -Warray-temporaries -Wcharacter-truncation -Wconversion-extra \
-	             -Wimplicit-interface -Wimplicit-procedure -Wintrinsics-std \
-                  -Wreal-q-constant -Wsurprising -Wunderflow -Wuse-without-only -Walign-commons \
-			   -Wfunction-elimination -Wrealloc-lhs -Wrealloc-lhs-all -Werror \
-                  -fbacktrace -ffree-line-length-0 -fcheck=all \
-			   -ffpe-trap=invalid,zero,overflow,underflow -pedantic-errors -std=f2008
+     opt_debug := -g -warn all -diag-disable=5268 -check all -fpe0 -traceback -debug extended -stand -fp-stack-check
      
      ## Флаги для финальной сборки
      opt_production := -Ofast
@@ -52,15 +47,21 @@
      
      ## Сохранять собранную программу при очистке?
      save_main := false
-     
-     ## Директория с исходниками (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
-     source_path := ./Исходники/
 
-     ## Указание поддиректорий (всегда в окончании прямой слеш)
+     ## Число процессов
+     procs_num := 4
+     
+     ## Директория с исходными файлами (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
+     source_path := Исходники/
+
+     ## Указание поддиректорий в директории с исходными файлами (всегда в окончании прямой слеш)
      subs := 
+
+     ## Директория с объектными файлами (всегда в окончании прямой слеш; точка-слеш, если хранить в текущей директории)
+     obj_path := Объектники/
      
      ## Правила-зависимости (при необходимости)
-     $(source_path)$(main_name).o : $(source_path)module.o
+     $(obj_path)$(main_name).o : $(obj_path)module.o
      
      # Определение флагов компилятора
      
@@ -75,34 +76,36 @@
      ## Директории, где искать исходные файлы
      VPATH := $(source_path) $(addprefix $(source_path), $(subs))
      
-	## Получение полного списка исходных файлов и аналогичного списка
-	## без указания исходника главной программы
+	## Получение полного списка исходных файлов
 
      allpattern := $(addsuffix *.$(pattern), $(VPATH))
      source := $(wildcard $(allpattern))
-     no_main := $(filter-out %$(main_name).$(pattern), $(source))
+
+     main_source := $(filter %$(main_name).$(pattern), $(source))
+
+     ## Смена пути исходных файлов
+
+     obj_path_source := $(addprefix $(obj_path), $(notdir $(source)))
 
 	## Получение списка .mod файлов и .o файлов, связанных с модулями. Объектный
 	## файл для главной программы записан в переменную obj_main для сохранения
 	## общности семантики. 
 	
-     mod := $(patsubst %.$(pattern), %.mod, $(addprefix $(source_path), $(notdir $(no_main))))
-     obj_main := $(patsubst %.$(pattern), %.o, $(filter %$(main_name).$(pattern), $(source)))
+     mod := $(filter-out %$(main_name).mod, $(patsubst %.$(pattern), %.mod, $(obj_path_source)))
      obj_mod := $(patsubst %.mod, %.o, $(mod))
+
+     obj_main := $(patsubst %.$(pattern), %.o, $(filter %$(main_name).$(pattern), $(obj_path_source)))
      
      # Блок правил для компиляции объектных файлов
       
      $(main_name) : $(obj_main) $(obj_mod)
 	               $(comp) $(opt) $^ -o $@
 
-     $(source_path)%.o : %.$(pattern) 
-	                    $(comp) -c $(opt) -J $(source_path) $<
-	                    if [ "./" != "$(source_path)" ]; then\
-	                         mv -f $(notdir $(patsubst %.mod, %.o, ./$@)) $(source_path);\
-	                    fi
+     $(obj_path)%.o : %.$(pattern)
+	                 $(comp) -c $(opt) -module $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)));\
 
-     $(obj_main) : $(source_path)$(main_name).$(pattern)
-	              $(comp) -c $(opt) $< -o $@
+     $(obj_main) : $(main_source)
+	              $(comp) -c $(opt) -module $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@));\
 	
      # Блок правил для сборки программы
       
@@ -113,15 +116,15 @@
 	         if [ "true" = "$(use_input)" ]; then\
 	              make input;\
 			    if [ "true" = "$(use_output)" ]; then\
-	                   time ./$< < input > output;\
+	                   time mpiexec -np $(procs_num) ./$< < input > output;\
 			    else\
-			         time ./$< < input;\
+			         time mpiexec -np $(procs_num) ./$< < input;\
 			    fi\
 	         else\
 		         if [ "true" = "$(use_output)" ]; then\
-	                   time ./$< > output;\
+	                   time mpiexec -np $(procs_num) ./$< > output;\
 			    else\
-			         time ./$<;\
+			         time mpiexec -np $(procs_num) ./$<;\
 			    fi\
 	         fi
 	        
