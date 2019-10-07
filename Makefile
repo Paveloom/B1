@@ -5,6 +5,11 @@
      ## Для корректного отображения содержимого рекомендуется использовать
      ## текстовые редакторы gedit или Visual Studio Code.
 
+     # Настройки make-файла
+
+	## Имя координатора
+     make_name := make
+
      ## Заглушка на вывод сообщений указанными правилами
      ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
      
@@ -46,7 +51,7 @@
      git-dev : 
 	          if [ "true" = "$(force-changes)" ]; then \
 	               git checkout dev; \
-	               make force-change; \
+	               $(make_name) force-change; \
 	               git add -A; \
 	               git commit --amend --no-edit; \
 	               git push --force-with-lease; \
@@ -69,7 +74,7 @@
      git-dev-ready : 
 	                if [ "true" = "$(force-changes)" ]; then \
 	                     git checkout master; \
-	                     make force-change; \
+	                     $(make_name) force-change; \
 	                     git add -A; \
 	                     git commit --amend --no-edit; \
 	                     git push --force-with-lease; \
@@ -93,7 +98,7 @@
      endif
 
      git-new : 
-			make git-clean
+			$(make_name) git-clean
 			git init
 			git remote add origin git@github.com:$(username)/$(new_rep).git
 			git add Makefile
@@ -109,7 +114,7 @@
      endif
 
      git-new-2 : 
-			  make git-clean
+			  $(make_name) git-clean
 			  git init
 			  git remote add origin git@github.com:$(username)/$(new_rep).git
 			  git add Makefile
@@ -139,7 +144,7 @@
 	             echo
 			   git checkout master
 			   git reset --hard HEAD~1
-			   make git-dev
+			   $(make_name) git-dev
 			   
 	## Правило для повторения последнего переноса изменений из ветки master в ветку dev
 	## (используется reset --hard, поэтому следует использовать только при уверенности в
@@ -162,7 +167,7 @@
 	                   echo
 			         git checkout dev
 			         git reset --hard HEAD~1
-			         make git-dev-ready
+			         $(make_name) git-dev-ready
 	
      ## Правило для форсирования изменений (добавляет / удаляет пробелы в последней пустой строке;
      ## создает пустую строку, если необходимо; использование зависит от переменной force-changes)
