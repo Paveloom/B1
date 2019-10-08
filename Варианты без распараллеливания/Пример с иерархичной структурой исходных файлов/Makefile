@@ -5,6 +5,11 @@
      ## Для корректного отображения содержимого рекомендуется использовать
      ## текстовые редакторы gedit или Visual Studio Code.
 
+     # Настройки make-файла
+
+	## Имя координатора
+     make_name := make
+
      ## Заглушка на вывод сообщений указанными правилами
      ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
      
@@ -16,7 +21,7 @@
 	         git, git-am, git-dev, git-dev-ready, git-new, git-new-2, \
 		    git-dev-re, git-dev-ready-re, force_change, git-clean
 
-     ## Правило, выполняющееся при вызове make без аргументов
+     ## Правило, выполняющееся при вызове координатора без аргументов
      ALL : result-r
 
      # Настройки компиляции программ
@@ -105,10 +110,10 @@
 	               $(comp) $(opt) $^ -o $@
 
      $(obj_path)%.o : %.$(pattern)
-	                 $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)));\
+	                 $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)))
 
      $(obj_main) : $(main_source)
-	              $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@));\
+	              $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@))
 	
      # Блок правил для сборки программы
       
@@ -117,7 +122,7 @@
 
      result : $(main_name)
 	         if [ "true" = "$(use_input)" ]; then\
-	              make input;\
+	              $(make_name) input;\
 			    if [ "true" = "$(use_output)" ]; then\
 	                   time ./$< < input > output;\
 			    else\
@@ -136,20 +141,20 @@
 			      echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
 				 exit 1;\
 			 fi
-		      make result
+		      $(make_name) result
 		      cat output
 		      
      result-d : 
-	           make result
-	           make clean
+	           $(make_name) result
+	           $(make_name) clean
 	           
      result-c : 
 	           if [ "true" != "$(use_output)" ]; then\
 			      echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
 				 exit 1;\
 			 fi
-	           make result-r
-	           make clean
+	           $(make_name) result-r
+	           $(make_name) clean
 
      # Блок правил для очистки директории
      
@@ -191,7 +196,7 @@
      git-dev : 
 	          if [ "true" = "$(force-changes)" ]; then \
 	               git checkout dev; \
-	               make force-change; \
+	               $(make_name) force-change; \
 	               git add -A; \
 	               git commit --amend --no-edit; \
 	               git push --force-with-lease; \
@@ -214,7 +219,7 @@
      git-dev-ready : 
 	                if [ "true" = "$(force-changes)" ]; then \
 	                     git checkout master; \
-	                     make force-change; \
+	                     $(make_name) force-change; \
 	                     git add -A; \
 	                     git commit --amend --no-edit; \
 	                     git push --force-with-lease; \
@@ -238,7 +243,7 @@
      endif
 
      git-new : 
-			make git-clean
+			$(make_name) git-clean
 			git init
 			git remote add origin git@github.com:$(username)/$(new_rep).git
 			git add Makefile
@@ -254,7 +259,7 @@
      endif
 
      git-new-2 : 
-			  make git-clean
+			  $(make_name) git-clean
 			  git init
 			  git remote add origin git@github.com:$(username)/$(new_rep).git
 			  git add Makefile
@@ -284,7 +289,7 @@
 	             echo
 			   git checkout master
 			   git reset --hard HEAD~1
-			   make git-dev
+			   $(make_name) git-dev
 			   
 	## Правило для повторения последнего переноса изменений из ветки master в ветку dev
 	## (используется reset --hard, поэтому следует использовать только при уверенности в
@@ -307,7 +312,7 @@
 	                   echo
 			         git checkout dev
 			         git reset --hard HEAD~1
-			         make git-dev-ready
+			         $(make_name) git-dev-ready
 	
      ## Правило для форсирования изменений (добавляет / удаляет пробелы в последней пустой строке;
      ## создает пустую строку, если необходимо; использование зависит от переменной force-changes)
