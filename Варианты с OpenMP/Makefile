@@ -28,6 +28,9 @@
      
      ## Компилятор
      comp := ifort
+
+	## Флаг для указания директории для хранения .mod файлов
+     module_flag := -module
      
      ## Расширение исходных файлов
      pattern := f90
@@ -39,7 +42,7 @@
      opt_debug := -qopenmp -g -warn all -diag-disable=5268 -check all -fpe0 -traceback -debug extended -stand -fp-stack-check
      
      ## Флаги для финальной сборки
-     opt_production := -Ofast
+     opt_production := -qopenmp -Ofast
      
      ## Имя главной программы
      main_name := main
@@ -104,10 +107,10 @@
 	               $(comp) $(opt) $^ -o $@
 
      $(obj_path)%.o : %.$(pattern)
-	                 $(comp) -c $(opt) -module $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)))
+	                 $(comp) -c $(opt) $(module_flag) $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)))
 
      $(obj_main) : $(main_source)
-	              $(comp) -c $(opt) -module $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@))
+	              $(comp) -c $(opt) $(module_flag) $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@))
 	
      # Блок правил для сборки программы
       

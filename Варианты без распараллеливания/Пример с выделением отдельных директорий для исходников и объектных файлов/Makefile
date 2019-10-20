@@ -28,6 +28,9 @@
      
      ## Компилятор
      comp := gfortran
+
+	## Флаг для указания директории для хранения .mod файлов
+     module_flag := -J
      
      ## Расширение исходных файлов
      pattern := f95
@@ -109,10 +112,10 @@
 	               $(comp) $(opt) $^ -o $@
 
      $(obj_path)%.o : %.$(pattern)
-	                 $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)))
+	                 $(comp) -c $(opt) $(module_flag) $(obj_path) $< -o $(addprefix $(obj_path), $(subst .$(pattern),.o, $(notdir $<)))
 
      $(obj_main) : $(main_source)
-	              $(comp) -c $(opt) -J $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@))
+	              $(comp) -c $(opt) $(module_flag) $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@))
 	
      # Блок правил для сборки программы
       
