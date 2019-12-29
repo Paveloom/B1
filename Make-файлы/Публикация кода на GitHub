@@ -34,6 +34,9 @@
      ## Форсировать изменения в текущей версии? (см. документацию по правилам git-dev
      ## и git-dev-ready; см. действия, выполняемые при значении true, в правиле force-change)
      force-changes := true
+
+     ## Сообщение стартового коммита
+     start_message := "Стартовый коммит."
 		
      ## Правило для создания и публикации коммита
 
@@ -106,7 +109,7 @@
 	          git init
 	          git remote add origin git@github.com:$(username)/$(new_rep).git
 	          git add Makefile
-	          git commit -m "Стартовый коммит."
+	          git commit -m "$(start_message)"
 	          git push -u origin master
 			
      ## Правило для подключения нового удалённого репозитория с двумя ветками и
@@ -122,7 +125,7 @@
 	            git init
 	            git remote add origin git@github.com:$(username)/$(new_rep).git
 	            git add Makefile
-	            git commit -m "Стартовый коммит."
+	            git commit -m "$(start_message)"
 	            git push -u origin master
 	            git checkout -b dev
 	            git push -u origin dev
