@@ -5,7 +5,7 @@
 
 if [ -s .github/last_log ]; then
      
-     echo .github/last_log
+     cat .github/last_log
      false
      
 fi
