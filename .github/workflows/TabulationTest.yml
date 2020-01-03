@@ -3,7 +3,7 @@ name: Tabulation Test
 on: [push]
 
 jobs:
-  build:
+  tabulation_test_job:
 
     runs-on: ubuntu-latest
 
