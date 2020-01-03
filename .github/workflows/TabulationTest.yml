@@ -9,9 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Запустить скрипт для проверки табуляции
+    - name: Запуск скрипта для проверки табуляции
       run: |
         bash .github/TabulationTest.sh > .github/last_log
-    - name: Проверка лог файла
+    - name: Проверка лог файла на содержание ошибок
       run: |
         bash .github/SuccessCheck.sh
