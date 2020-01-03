@@ -3,7 +3,7 @@
 
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-a646f6971e6b4b8386cdb27c3360fa0c
-     ## Версия: v1.2.0 (https://github.com/Paveloom/B1/releases/tag/v1.2.0)
+     ## Версия: v1.2.1 (https://github.com/Paveloom/B1/releases/tag/v1.2.1)
      ## Автор: Павел Соболев (http://paveloom.tk)
 
      ## Для корректного отображения содержимого рекомендуется использовать
