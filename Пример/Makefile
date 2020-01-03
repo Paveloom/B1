@@ -1,9 +1,10 @@
 
      ## Это шаблон make-файла для компиляции программ.
-	
-     ## Автор: Павел Соболев (http://paveloom.tk)
-     ## Репозиторий GitHub: https://github.com/Paveloom/B1
+
+     ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-a646f6971e6b4b8386cdb27c3360fa0c
+     ## Версия: v1.2.0 (https://github.com/Paveloom/B1/releases/tag/v1.2.0)
+     ## Автор: Павел Соболев (http://paveloom.tk)
 
      ## Для корректного отображения содержимого рекомендуется использовать
      ## текстовые редакторы gedit или Visual Studio Code.
@@ -104,7 +105,7 @@
      ## Получение списка .mod файлов и .o файлов, связанных с модулями. Объектный
      ## файл для главной программы записан в переменную obj_main для сохранения
      ## общности семантики. 
-	
+
      mod := $(filter-out %$(main_name).mod, $(patsubst %.$(pattern), %.mod, $(obj_path_source)))
      obj_mod := $(patsubst %.mod, %.o, $(mod))
 
@@ -120,7 +121,7 @@
 
      $(obj_main) : $(main_source)
 	              $(comp) -c $(opt) $(module_flag) $(obj_path) $< -o $(addprefix $(obj_path), $(notdir $@))
-	
+
      # Блок правил для сборки программы
       
      input :
@@ -141,7 +142,7 @@
 	                   time ./$<;\
 	              fi\
 	         fi
-	        
+
      result-r : 
 	           if [ "true" != "$(use_output)" ]; then\
 	                echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
@@ -149,11 +150,11 @@
 	           fi
 	           $(make_name) result
 	           cat output
-		      
+
      result-d : 
 	           $(make_name) result
 	           $(make_name) clean
-	           
+
      result-c : 
 	           if [ "true" != "$(use_output)" ]; then\
 	                echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
