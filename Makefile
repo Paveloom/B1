@@ -1,6 +1,6 @@
 
      ## Это шаблон make-файла для публикации кода на GitHub.
-	
+
      ## Автор: Павел Соболев (http://paveloom.tk)
      ## Репозиторий GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-a646f6971e6b4b8386cdb27c3360fa0c
@@ -37,24 +37,24 @@
 
      ## Сообщение стартового коммита
      start_message := "Стартовый коммит."
-		
+
      ## Правило для создания и публикации коммита
 
      git : 
 	      git add -A
 	      git commit -e
 	      git push
-		 
+ 
      ## Правило для обновления последнего коммита до текущего состояния локального репозитория
-		 
+ 
      git-am : 
 	         git add -A
 	         git commit --amend
 	         git push --force-with-lease
-	         
+         
      ## Правило для обновления ветки master до текущего состояния ветки dev
      ## (слияние без создания коммита слияния; способ через создание второстепенной ветки feature)
-			
+
      git-dev : 
 	          if [ "true" = "$(force-changes)" ]; then \
 	               git checkout dev; \
@@ -63,7 +63,7 @@
 	               git commit --amend --no-edit; \
 	               git push --force-with-lease; \
 	          fi
-     
+	
 	          git checkout master
 	          git checkout -b feature
 	          git merge --squash dev -Xtheirs
@@ -73,11 +73,11 @@
 	          git branch -D feature
 	          git push --force-with-lease
 	          git checkout dev
-			
+
      ## Правило для обновления ветки dev до текущего состояния ветки master
      ## (аналогично правилу git-dev, только в обратную сторону; разумно использовать, только
      ## если были проделаны изменения на ветке master после последнего слияния)
-	
+
      git-dev-ready : 
 	                if [ "true" = "$(force-changes)" ]; then \
 	                     git checkout master; \
@@ -86,7 +86,7 @@
 	                     git commit --amend --no-edit; \
 	                     git push --force-with-lease; \
 	                fi
-
+	
 	                git checkout dev
 	                git checkout -b dev-upd
 	                git merge --squash master -Xtheirs
@@ -111,7 +111,7 @@
 	          git add Makefile
 	          git commit -m "$(start_message)"
 	          git push -u origin master
-			
+
      ## Правило для подключения нового удалённого репозитория с двумя ветками и
      ## загрузки в него стартового make-файла (см. документацию по правилам)
 
@@ -129,11 +129,11 @@
 	            git push -u origin master
 	            git checkout -b dev
 	            git push -u origin dev
-			
+
      ## Правило для повторения последнего переноса изменений из ветки dev в ветку master
      ## (используется reset --hard, поэтому следует использовать только при уверенности в
      ## правильности своих действий — поэтому задаётся вопрос)
-	
+
      git-dev-re :
 	             echo
 	             echo "Будет использован reset --hard. Убедитесь, что последний коммит в ветке master получен переносом изменений из ветки dev."
@@ -152,7 +152,7 @@
 	             git checkout master
 	             git reset --hard HEAD~1
 	             $(make_name) git-dev
-			   
+   
      ## Правило для повторения последнего переноса изменений из ветки master в ветку dev
      ## (используется reset --hard, поэтому следует использовать только при уверенности в
      ## правильности своих действий — поэтому задаётся вопрос)
@@ -190,7 +190,7 @@
 	                         echo "$f " >> Makefile; \
 	                    fi \
 	               fi
-	
+
      ## Правило для удаления репозитория в текущей директории
      
      git-clean : 
