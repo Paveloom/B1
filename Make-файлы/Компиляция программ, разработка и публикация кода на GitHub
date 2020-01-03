@@ -2,9 +2,10 @@
      ## Это шаблон make-файла для компиляции программ,
      ## разработки и публикации кода на GitHub.
 
-     ## Автор: Павел Соболев (http://paveloom.tk)
-     ## Репозиторий GitHub: https://github.com/Paveloom/B1
+     ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-a646f6971e6b4b8386cdb27c3360fa0c
+     ## Версия: v1.2.0 (https://github.com/Paveloom/B1/releases/tag/v1.2.0)
+     ## Автор: Павел Соболев (http://paveloom.tk)
 
      ## Для корректного отображения содержимого рекомендуется использовать
      ## текстовые редакторы gedit или Visual Studio Code.
