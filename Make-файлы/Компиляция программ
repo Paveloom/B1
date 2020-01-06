@@ -2,8 +2,11 @@
      ## Это шаблон make-файла для компиляции программ.
 
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
-     ## Документация: https://www.notion.so/paveloom/B1-a646f6971e6b4b8386cdb27c3360fa0c
-     ## Версия: v1.2.1 (https://github.com/Paveloom/B1/releases/tag/v1.2.1)
+     ## Документация: https://www.notion.so/paveloom/B1-fefcaf42ddf541d4b11cfcab63c2f018
+
+     ## Версия релиза: v1.2.1 (https://github.com/Paveloom/B1/releases/tag/v1.2.1)
+     ## Версия документации: v1.0.0
+
      ## Автор: Павел Соболев (http://paveloom.tk)
 
      ## Для корректного отображения содержимого рекомендуется использовать
