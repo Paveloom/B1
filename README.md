@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/release-v1.2.1-informational.svg)](https://github.com/Paveloom/B1/releases/tag/v1.2.1) [![](https://img.shields.io/badge/docs-v1.0.0-informational.svg)](https://www.notion.so/paveloom/v1-0-0-ceaf273a72b44b8497bc16b4d7ebb069) ![](https://img.shields.io/badge/platform-linux-informational.svg)
+[![](https://img.shields.io/badge/release-v1.2.1-informational.svg)](https://github.com/Paveloom/B1/releases/tag/v1.2.1) [![](https://img.shields.io/badge/docs-v1.0.0-informational.svg)](https://www.notion.so/paveloom/v1-0-0-ceaf273a72b44b8497bc16b4d7ebb069) ![](https://img.shields.io/badge/platform-linux-lightgrey.svg)
 
 ### Описание
 
