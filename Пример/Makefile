@@ -4,8 +4,8 @@
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-fefcaf42ddf541d4b11cfcab63c2f018
 
-     ## Версия релиза: 1.2.3
-     ## Версия документации: 1.0.1
+     ## Версия релиза: 2.0.0
+     ## Версия документации: 2.0.0
 
      ## Автор: Павел Соболев (http://paveloom.tk)
 
@@ -24,10 +24,7 @@
      .SILENT : 
 
      ## Правила-псевдоцели
-
-     .PHONY : result, result-r, result-d, result-c, clean, \
-              git, git-am, git-dev, git-dev-ready, git-new, git-new-2, \
-              git-dev-re, git-dev-ready-re, force_change, git-clean
+     .PHONY : result, result-r, result-d, result-c, clean
 
      ## Правило, выполняющееся при вызове координатора без аргументов
      ALL : result-r
