@@ -104,8 +104,7 @@ done
 ## Массив правил для текущего make-файла
 rules=( '$(main_name)' '$(obj_path)%.o' '$(obj_main)' \
         'input' 'result' 'result-r' 'result-d' 'result-c' \
-        'clean' 'git' 'git-am' 'git-new' \
-        'force-change' 'git-clean' )
+        'clean' 'git' 'git-am' 'git-new' 'git-clean' )
 
 ## Путь к текущему make-файлу
 path="./Make-файлы/Компиляция программ, публикация кода на GitHub"
