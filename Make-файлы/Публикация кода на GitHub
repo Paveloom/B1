@@ -4,7 +4,7 @@
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-fefcaf42ddf541d4b11cfcab63c2f018
 
-     ## Версия релиза: 1.2.3
+     ## Версия релиза: 2.0.0
      ## Версия документации: 1.0.1
 
      ## Автор: Павел Соболев (http://paveloom.tk)
