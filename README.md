@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/release-v1.2.3-informational.svg)](https://github.com/Paveloom/B1/releases/tag/rv1.2.3) [![](https://img.shields.io/badge/docs-v1.0.1-informational.svg)](https://www.notion.so/paveloom/v1-0-1-7c87dfe52fab4b39829a51803397ff44) ![](https://img.shields.io/badge/platform-linux-lightgrey.svg)
+[![](https://img.shields.io/badge/release-v2.0.0-informational.svg)](https://github.com/Paveloom/B1/releases/tag/rv2.0.0) [![](https://img.shields.io/badge/docs-v2.0.0-informational.svg)](https://www.notion.so/paveloom/v2-0-0-7bd789dff2784824bf33f7ccdd1ea681) ![](https://img.shields.io/badge/platform-linux-lightgrey.svg)
 
 ### Описание
 
@@ -9,6 +9,6 @@
 
 Пример представляет использование иерархической структуры исходных файлов для компиляции программы.<br>
 
-[Вся документация](https://www.notion.so/B1-fefcaf42ddf541d4b11cfcab63c2f018) организована с помощью [Notion](https://www.notion.so). Подробная информация о правилах и переменных, описанных в шаблоне, представлена на соответствующей [странице](https://www.notion.so/paveloom/745ec12fa51a4d5fbdbd46ba85604326). Более подробное описание правил, касающихся публикации кода на GitHub, можно найти на странице [О правилах для отправки кода на GitHub](https://www.notion.so/paveloom/GitHub-4e0a735c651d43499b8dfffb05704eae). Описание правил указания зависимостей между программными единицами в make-файле представлено на странице [О зависимостях и структуре исходных файлов](https://www.notion.so/paveloom/25c73763eea64d40aa21d64efcedf028). Советы по использованию и замечания по коду расположены на [одноименное странице](https://www.notion.so/paveloom/0737880edb2b472f9b04de31d2fcfaf2).
+[Вся документация](https://www.notion.so/B1-fefcaf42ddf541d4b11cfcab63c2f018) организована с помощью [Notion](https://www.notion.so). Подробная информация о правилах и переменных, описанных в шаблоне, представлена на соответствующей [странице](https://www.notion.so/paveloom/2f5bb0739a9f4ff89622faa645960d14). Описание правил указания зависимостей между программными единицами в make-файле представлено на странице [О зависимостях и структуре исходных файлов](https://www.notion.so/paveloom/ab18abc26cf740faa07994b5de3dd24a). Советы по использованию и замечания по коду расположены на [одноименное странице](https://www.notion.so/paveloom/8aaad3b58c7842c9a2edaed2e08df794).
 
 Автор: [Павел Соболев](http://paveloom.tk)
