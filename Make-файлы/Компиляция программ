@@ -24,10 +24,7 @@
      .SILENT : 
 
      ## Правила-псевдоцели
-
-     .PHONY : result, result-r, result-d, result-c, clean, \
-              git, git-am, git-dev, git-dev-ready, git-new, git-new-2, \
-              git-dev-re, git-dev-ready-re, force_change, git-clean
+     .PHONY : result, result-r, result-d, result-c, clean
 
      ## Правило, выполняющееся при вызове координатора без аргументов
      ALL : result-r

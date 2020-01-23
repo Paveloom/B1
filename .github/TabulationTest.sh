@@ -15,13 +15,7 @@ declare -A inds=( ['$(main_name)']='1' \
                   ['clean']='5' \
                   ['git']='3' \
                   ['git-am']='3' \
-                  ['git-dev']='17' \
-                  ['git-dev-ready']='16' \
                   ['git-new']='6' \
-                  ['git-new-2']='8' \
-                  ['git-dev-re']='17' \
-                  ['git-dev-ready-re']='17' \
-                  ['force-change']='10' \
                   ['git-clean']='1')
 
 
@@ -174,9 +168,7 @@ done < "$path"
 # Блок для файлов "../Make-файлы/Публикация кода на GitHub" и "../Makefile"
 
 ## Массив правил для текущего make-файла
-rules=( 'git' 'git-am' 'git-dev' 'git-dev-ready' \
-        'git-new' 'git-new-2' 'git-dev-re' 'git-dev-ready-re' \
-        'force-change' 'git-clean' )
+rules=( 'git' 'git-am' 'git-new' 'git-clean' )
 
 ## Цикл с определением пути к файлу для текущего цикла
 for path in "./Make-файлы/Публикация кода на GitHub" "./Makefile"; do

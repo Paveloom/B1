@@ -27,8 +27,7 @@
      ## Правила-псевдоцели
 
      .PHONY : result, result-r, result-d, result-c, clean, \
-              git, git-am, git-dev, git-dev-ready, git-new, git-new-2, \
-              git-dev-re, git-dev-ready-re, force_change, git-clean
+              git, git-am, git-new, git-clean
 
      ## Правило, выполняющееся при вызове координатора без аргументов
      ALL : result-r
@@ -179,7 +178,7 @@
 
 
 
-     # Блок правил для разработки и публикации кода на GitHub
+     # Блок правил для публикации кода на GitHub
      
      ## Имя пользователя на GitHub
      username := Paveloom
@@ -201,8 +200,8 @@
 	         git commit --amend
 	         git push --force-with-lease
          
-     ## Правило для подключения удалённого репозитория с одной веткой и
-     ## загрузки в него стартового make-файла (см. документацию по правилам)
+     ## Правило для подключения удалённого репозитория и
+     ## загрузки в него стартового make-файла
 
      ifeq (git-new, $(firstword $(MAKECMDGOALS)))
           new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
