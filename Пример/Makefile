@@ -172,3 +172,21 @@
 	        else\
 	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
 	        fi
+
+
+
+     # Блок правил для создания архивов
+
+     archive : Тест.zip
+
+     Тест.zip : Исходники/*
+	           make archive-zip $@ $^
+
+     ifeq (archive-zip, $(firstword $(MAKECMDGOALS)))
+          archive-name := $(word 2, $(MAKECMDGOALS))
+          archive-files := $(wildcard $(filter-out archive-zip, $(archive-name), $(MAKECMDGOALS)))
+          $(eval $(new_rep):;@#)
+     endif
+
+     archive-zip :
+	              zip -r $(archive-name) $(archive-files)
