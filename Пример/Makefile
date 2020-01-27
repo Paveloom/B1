@@ -177,16 +177,17 @@
 
      # Блок правил для создания архивов
 
-     archive : Тест.zip
+     ifeq (archive, $(firstword $(MAKECMDGOALS)))
 
-     Тест.zip : Исходники/*
-	           make archive-zip $@ $^
+          args := $(filter-out archive, $(MAKECMDGOALS))
+          $(eval $(args):;@#)
 
-     ifeq (archive-zip, $(firstword $(MAKECMDGOALS)))
-          archive-name := $(word 2, $(MAKECMDGOALS))
-          archive-files := $(wildcard $(filter-out archive-zip, $(archive-name), $(MAKECMDGOALS)))
-          $(eval $(new_rep):;@#)
+          ifeq (Пример, $(word 1, $(args)))
+               archive-name := "Пример архива/Пример"
+               archive-files := $(shell echo Исходники/*)
+          endif
+
      endif
 
-     archive-zip :
-	              zip -r $(archive-name) $(archive-files)
+     archive : 
+	          zip -qr $(archive-name).zip $(archive-files)
