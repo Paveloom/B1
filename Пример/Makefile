@@ -164,8 +164,8 @@
 	           $(make_name) result-r
 	           $(make_name) clean
 
-     # Блок правил для очистки директории
-     
+     # Правило для очистки
+
      clean :
 	        if [ "true" = "$(save_main)" ]; then\
 	             rm -f $(obj_main) $(obj_mod) $(mod);\
@@ -173,21 +173,8 @@
 	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
 	        fi
 
-
-
-     # Блок правил для создания архивов
-
-     ifeq (archive, $(firstword $(MAKECMDGOALS)))
-
-          args := $(filter-out archive, $(MAKECMDGOALS))
-          $(eval $(args):;@#)
-
-          ifeq (Пример, $(word 1, $(args)))
-               archive-name := "Пример архива/Пример"
-               archive-files := $(shell echo Исходники/*)
-          endif
-
-     endif
+     # Правило для создания архивов
 
      archive : 
-	          zip -qr $(archive-name).zip $(archive-files)
+	          zip -q "Пример архива/Makefile.zip" Makefile
+	          zip -qr "Пример архива/Исходники.zip" Исходники/

@@ -176,6 +176,10 @@
 	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
 	        fi
 
+     archive : 
+	          zip -q "Компиляция программ, публикация кода на GitHub.zip" "Компиляция программ, публикация кода на GitHub"
+	          zip -qr Make-файлы.zip ../Make-файлы/
+
 
 
      # Блок правил для публикации кода на GitHub

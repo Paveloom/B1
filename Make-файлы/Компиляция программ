@@ -172,3 +172,7 @@
 	        else\
 	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
 	        fi
+
+     archive : 
+	          zip -q "Компиляция программ.zip" "Компиляция программ"
+	          zip -qr Make-файлы.zip ../Make-файлы/

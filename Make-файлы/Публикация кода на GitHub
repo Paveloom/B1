@@ -73,3 +73,7 @@
      
      git-clean : 
 	            rm -rf .git
+
+     archive : 
+	          zip -q "Публикация кода на GitHub.zip" "Публикация кода на GitHub"
+	          zip -qr Make-файлы.zip ../Make-файлы/

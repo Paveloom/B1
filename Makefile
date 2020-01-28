@@ -73,3 +73,9 @@
      
      git-clean : 
 	            rm -rf .git
+
+     # Правило для создания архивов
+
+     archive : 
+	          zip -q Makefile.zip Makefile
+	          zip -qr Исходники.zip Исходники/

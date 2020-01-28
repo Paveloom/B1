@@ -13,6 +13,7 @@ declare -A inds=( ['$(main_name)']='1' \
                   ['result-d']='2' \
                   ['result-c']='6' \
                   ['clean']='5' \
+                  ['archive']='2' \
                   ['git']='3' \
                   ['git-am']='3' \
                   ['git-new']='6' \
@@ -24,7 +25,7 @@ declare -A inds=( ['$(main_name)']='1' \
 ## Массив правил для текущего make-файла
 rules=( '$(main_name)' '$(obj_path)%.o' '$(obj_main)' \
         'input' 'result' 'result-r' 'result-d' 'result-c' \
-        'clean' )
+        'clean' 'archive' )
 
 ## Цикл с определением пути к файлу для текущего цикла
 for path in "./Make-файлы/Компиляция программ" "./Пример/Makefile"; do
@@ -98,7 +99,7 @@ done
 ## Массив правил для текущего make-файла
 rules=( '$(main_name)' '$(obj_path)%.o' '$(obj_main)' \
         'input' 'result' 'result-r' 'result-d' 'result-c' \
-        'clean' 'git' 'git-am' 'git-new' 'git-clean' )
+        'clean' 'archive' 'git' 'git-am' 'git-new' 'git-clean' )
 
 ## Путь к текущему make-файлу
 path="./Make-файлы/Компиляция программ, публикация кода на GitHub"
@@ -168,7 +169,7 @@ done < "$path"
 # Блок для файлов "../Make-файлы/Публикация кода на GitHub" и "../Makefile"
 
 ## Массив правил для текущего make-файла
-rules=( 'git' 'git-am' 'git-new' 'git-clean' )
+rules=( 'git' 'git-am' 'git-new' 'git-clean' 'archive')
 
 ## Цикл с определением пути к файлу для текущего цикла
 for path in "./Make-файлы/Публикация кода на GitHub" "./Makefile"; do
