@@ -176,5 +176,5 @@
      # Правило для создания архивов
 
      archive : 
-	          zip -q "Пример архива/Makefile.zip" Makefile
-	          zip -qr "Пример архива/Исходники.zip" Исходники/
+	          zip -q "Примеры архивов/Makefile.zip" Makefile
+	          zip -qr "Примеры архивов/Исходники.zip" Исходники/
