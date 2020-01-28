@@ -4,8 +4,8 @@
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-fefcaf42ddf541d4b11cfcab63c2f018
 
-     ## Версия релиза: 2.0.1
-     ## Версия документации: 2.0.0
+     ## Версия релиза: 2.1.0
+     ## Версия документации: 2.1.0
 
      ## Автор: Павел Соболев (http://paveloom.tk)
 
@@ -73,3 +73,9 @@
      
      git-clean : 
 	            rm -rf .git
+
+     # Правило для создания архивов
+
+     archive : 
+	          zip -q Makefile.zip Makefile
+	          zip -qr Исходники.zip Исходники/

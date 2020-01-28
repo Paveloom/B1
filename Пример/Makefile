@@ -4,8 +4,8 @@
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-fefcaf42ddf541d4b11cfcab63c2f018
 
-     ## Версия релиза: 2.0.1
-     ## Версия документации: 2.0.0
+     ## Версия релиза: 2.1.0
+     ## Версия документации: 2.1.0
 
      ## Автор: Павел Соболев (http://paveloom.tk)
 
@@ -164,11 +164,17 @@
 	           $(make_name) result-r
 	           $(make_name) clean
 
-     # Блок правил для очистки директории
-     
+     # Правило для очистки
+
      clean :
 	        if [ "true" = "$(save_main)" ]; then\
 	             rm -f $(obj_main) $(obj_mod) $(mod);\
 	        else\
 	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
 	        fi
+
+     # Правило для создания архивов
+
+     archive : 
+	          zip -q "Примеры архивов/Makefile.zip" Makefile
+	          zip -qr "Примеры архивов/Исходники.zip" Исходники/
