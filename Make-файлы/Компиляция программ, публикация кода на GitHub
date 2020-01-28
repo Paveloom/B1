@@ -167,7 +167,7 @@
 	           $(make_name) result-r
 	           $(make_name) clean
 
-     # Блок правил для очистки директории
+     # Правило для очистки
      
      clean :
 	        if [ "true" = "$(save_main)" ]; then\
