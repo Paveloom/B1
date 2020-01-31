@@ -66,7 +66,7 @@
 	          git init
 	          git remote add origin git@github.com:$(username)/$(new_rep).git
 	          git add Makefile
-	          git commit -m "$(start_message)"
+	          git commit -m $(start_message)
 	          git push -u origin master
 
      ## Правило для удаления репозитория в текущей директории
