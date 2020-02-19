@@ -78,4 +78,4 @@
 
      archive :
 	          zip -q Makefile.zip Makefile
-	          zip -qr Исходники.zip Исходники/
+	          cd Make-файлы/ && find . -path '*/.*' -prune -o -type f -print | zip ../Make-файлы.zip -FS -q -@

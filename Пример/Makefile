@@ -177,4 +177,4 @@
 
      archive :
 	          zip -q "Примеры архивов/Makefile.zip" Makefile
-	          zip -qr "Примеры архивов/Исходники.zip" Исходники/
+	          cd Исходники/ && find . -path '*/.*' -prune -o -type f -print | zip ../Примеры\ архивов/Исходники.zip -FS -q -@

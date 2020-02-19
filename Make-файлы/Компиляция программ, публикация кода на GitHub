@@ -180,7 +180,7 @@
 
      archive :
 	          zip -q "Компиляция программ, публикация кода на GitHub.zip" "Компиляция программ, публикация кода на GitHub"
-	          zip -qr Make-файлы.zip ../Make-файлы/
+	          find . -path '*/.*' -prune -o -type f -print | zip ../Make-файлы.zip -FS -q -@
 
 
 

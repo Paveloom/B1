@@ -78,4 +78,4 @@
 
      archive :
 	          zip -q "Публикация кода на GitHub.zip" "Публикация кода на GitHub"
-	          zip -qr Make-файлы.zip ../Make-файлы/
+	          find . -path '*/.*' -prune -o -type f -print | zip ../Make-файлы.zip -FS -q -@

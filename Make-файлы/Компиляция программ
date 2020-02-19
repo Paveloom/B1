@@ -177,4 +177,4 @@
 
      archive :
 	          zip -q "Компиляция программ.zip" "Компиляция программ"
-	          zip -qr Make-файлы.zip ../Make-файлы/
+	          find . -path '*/.*' -prune -o -type f -print | zip ../Make-файлы.zip -FS -q -@
