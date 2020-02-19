@@ -4,7 +4,7 @@
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-fefcaf42ddf541d4b11cfcab63c2f018
 
-     ## Версия релиза: 2.1.2
+     ## Версия релиза: 2.1.3
      ## Версия документации: 2.1.0
 
      ## Автор: Павел Соболев (http://paveloom.tk)
@@ -78,4 +78,4 @@
 
      archive :
 	          zip -q Makefile.zip Makefile
-	          zip -qr Исходники.zip Исходники/
+	          cd Make-файлы/ && find . -path '*/.*' -prune -o -type f -print | zip ../Make-файлы.zip -FS -q -@
