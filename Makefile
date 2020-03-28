@@ -16,10 +16,10 @@
      # Настройки make-файла
 
      ## Имя координатора
-     MAKE := make
+     make := make
 
      ## Указание оболочки
-     SHELL := /bin/bash
+     shell := /bin/bash
 
      ## Указание make-файлу выполнять все правила в одном вызове оболочки
      .ONESHELL :
@@ -38,13 +38,13 @@
      # Блок правил для разработки и публикации кода на GitHub
 
      ## Имя пользователя на GitHub
-     USERNAME := Paveloom
+     username := Paveloom
 
      ## Сообщение стартового коммита
-     START_MESSAGE := "Стартовый коммит."
+     start_message := "Стартовый коммит."
 
      ## Имя ветки изменений
-     FEATURE_BRANCH := feature
+     feature_branch := feature
 
      ## Правило для создания и публикации коммита
      git :
@@ -73,28 +73,28 @@
      ## Правило для создания ветки изменений
      new :
 	      git checkout -q master
-	      git checkout -b ${FEATURE_BRANCH}
-	      git push -u origin ${FEATURE_BRANCH}
+	      git checkout -b $(feature_branch)
+	      git push -u origin $(feature_branch)
 
      ## Правило для удаления текущей ветки изменений локально
      del :
 	      git checkout -q master
-	      git branch -D ${FEATURE_BRANCH}
+	      git branch -D $(feature_branch)
 
      ## Правило для подключения удалённого репозитория и
      ## загрузки в него стартового make-файла
 
      ifeq (git-new, $(firstword $(MAKECMDGOALS)))
-          NEW_REP := $(wordlist 2, 2, $(MAKECMDGOALS))
-          $(eval $(NEW_REP):;@#)
+          new_rep := $(wordlist 2, 2, $(MAKECMDGOALS))
+          $(eval $(new_rep):;@#)
      endif
 
      git-new :
-	          $(MAKE) git-clean
+	          $(make) git-clean
 	          git init
-	          git remote add origin git@github.com:$(USERNAME)/$(NEW_REP).git
+	          git remote add origin git@github.com:$(username)/$(new_rep).git
 	          git add Makefile
-	          git commit -m $(START_MESSAGE)
+	          git commit -m $(start_message)
 	          git push -u origin master
 
      ## Правило для удаления репозитория в текущей директории
