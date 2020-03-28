@@ -20,7 +20,7 @@
      make := make
 
      ## Указание оболочки
-     shell := /bin/bash
+     SHELL := /bin/bash
 
      ## Указание make-файлу выполнять все правила в одном вызове оболочки
      .ONESHELL :
