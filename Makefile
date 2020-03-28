@@ -53,7 +53,7 @@
 	      CURRENT_BRANCH=$$(git status | head -n 1 | cut -d " " -f 3)
 
 	      # Проверка текущей ветки
-	      if [ "$$CURRENT_BRANCH" = "${FEATURE_BRANCH}" ]; then
+	      if [ "$$CURRENT_BRANCH" = "${feature_branch}" ]; then
 
 	           # Определение последнего тега
 	           LAST_TAG=$$(git describe --tag)
@@ -89,7 +89,7 @@
 	                else
 
 	                     # Формирование нового тега
-	                     NEXT_TAG=$$(echo "$$LAST_TAG _${FEATURE_BRANCH}_1" | sed "s/\ //")
+	                     NEXT_TAG=$$(echo "$$LAST_TAG _${feature_branch}_1" | sed "s/\ //")
 
 	                     git add -A
 	                     git commit -e
@@ -159,7 +159,7 @@
 	        CURRENT_BRANCH=$$(git status | head -n 1 | cut -d " " -f 3)
 
 	        # Проверка текущей ветки
-	        if [ "$$CURRENT_BRANCH" = "${FEATURE_BRANCH}" ]; then
+	        if [ "$$CURRENT_BRANCH" = "${feature_branch}" ]; then
 
 	             # Определение последнего тега
 	             LAST_TAG=$$(git describe --tag)
