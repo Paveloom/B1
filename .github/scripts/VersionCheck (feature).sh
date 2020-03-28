@@ -12,7 +12,7 @@ ERROR_COUNT=0
 # Определение функции для проверки версии релиза
 function check_release_version {
 
-     printf "\nПроверяется версия релиза в файле $1 ...\n\n"
+     printf "\nПроверяется версия релиза в файле $1 ...\n"
 
      if grep "Версия релиза: " "$1" | grep -q "$R_CURRENT_TAG_ESCAPED"; then
 
@@ -30,7 +30,7 @@ function check_release_version {
 # Определение функции для проверки версии документации
 function check_docs_version {
 
-     printf "\nПроверяется версия документации в файле $1 ...\n\n"
+     printf "\nПроверяется версия документации в файле $1 ...\n"
 
      if grep "Версия документации: " "$1" | grep -q "$D_CURRENT_TAG_ESCAPED"; then
 
