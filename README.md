@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/GitHub-Paveloom/B1-5DA399.svg)](https://github.com/Paveloom/B1) [![](https://img.shields.io/badge/license-Unlicense-5DA399.svg)](https://github.com/Paveloom/B1/blob/master/LICENSE.md) [![](https://img.shields.io/badge/release-v2.2.0-informational.svg)](https://github.com/Paveloom/B1/releases/tag/rv2.2.0) [![](https://img.shields.io/badge/docs-v2.2.0-informational.svg)](https://www.notion.so/paveloom/v2-2-0-8c3d2f07bac040a4ae11800d9e239c56) ![](https://img.shields.io/badge/platforms-linux,%20macOS-3E6680.svg)
+[![](https://img.shields.io/badge/GitHub-Paveloom/B1-5DA399.svg)](https://github.com/Paveloom/B1) [![](https://img.shields.io/badge/license-Unlicense-5DA399.svg)](https://github.com/Paveloom/B1/blob/master/LICENSE.md) [![](https://img.shields.io/badge/release-v2.2.1-informational.svg)](https://github.com/Paveloom/B1/releases/tag/rv2.2.1) [![](https://img.shields.io/badge/docs-v2.2.0-informational.svg)](https://www.notion.so/paveloom/v2-2-0-8c3d2f07bac040a4ae11800d9e239c56) ![](https://img.shields.io/badge/platforms-linux,%20macOS-3E6680.svg)
 
 ### Описание
 
