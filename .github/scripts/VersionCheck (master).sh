@@ -26,10 +26,10 @@ echo $MASTER_TAG
 if echo "$MASTER_TAG" | grep -q "rv"; then
 
      printf "\nТекущий тег из README.md для релиза:\n"
-     echo r$H1_CURRENT_TAG
+     echo r$R_CURRENT_TAG
 
      # Проверка, отличается ли тег на master от текущего тега
-     if [ ! r$H1_CURRENT_TAG == $MASTER_TAG ]; then
+     if [ ! r$R_CURRENT_TAG == $MASTER_TAG ]; then
 
           printf "\nТекущий тег для релиза и тег на master НЕ совпадают. Обновите"
           printf "\nтег на master в соответствии с текущим тегом.\n\n"
@@ -41,10 +41,10 @@ if echo "$MASTER_TAG" | grep -q "rv"; then
 elif echo "$MASTER_TAG" | grep -q "dv"; then
 
      printf "\nТекущий тег из README.md для документации:\n"
-     echo d$H2_CURRENT_TAG
+     echo d$D_CURRENT_TAG
 
      # Проверка, отличается ли тег на master от текущего тега
-     if [ ! d$H2_CURRENT_TAG == $MASTER_TAG ]; then
+     if [ ! d$D_CURRENT_TAG == $MASTER_TAG ]; then
 
           printf "\nТекущий тег для документации и тег на master НЕ совпадают. Обновите"
           printf "\nтег на master в соответствии с текущим тегом.\n\n"
