@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/release-v2.1.3-informational.svg)](https://github.com/Paveloom/B1/releases/tag/rv2.1.3) [![](https://img.shields.io/badge/docs-v2.1.0-informational.svg)](https://www.notion.so/paveloom/v2-1-0-2d8be7d84ee54240a9a7e644edf05c9c) ![](https://img.shields.io/badge/platform-linux-3E6680.svg)
+[![](https://img.shields.io/badge/GitHub-Paveloom/B1-5DA399.svg)](https://github.com/Paveloom/B1) [![](https://img.shields.io/badge/license-Unlicense-5DA399.svg)](https://github.com/Paveloom/B1/blob/master/LICENSE.md) [![](https://img.shields.io/badge/release-v2.2.0-informational.svg)](https://github.com/Paveloom/B1/releases/tag/rv2.2.0) [![](https://img.shields.io/badge/docs-v2.2.0-informational.svg)](https://www.notion.so/paveloom/v2-2-0-8c3d2f07bac040a4ae11800d9e239c56) ![](https://img.shields.io/badge/platforms-linux,%20macOS-3E6680.svg)
 
 ### Описание
 
@@ -9,6 +9,6 @@
 
 Пример представляет использование иерархической структуры исходных файлов для компиляции программы.<br>
 
-[Вся документация](https://www.notion.so/B1-fefcaf42ddf541d4b11cfcab63c2f018) организована с помощью [Notion](https://www.notion.so). Подробная информация о правилах и переменных, описанных в шаблоне, представлена на соответствующей [странице](https://www.notion.so/paveloom/fa4a02776acf46cdb7a46e2f0f0af6f5). Описание правил указания зависимостей между программными единицами в make-файле представлено на странице [О зависимостях и структуре исходных файлов](https://www.notion.so/paveloom/53e3af6d5ad840bd91f9e32c04a75e1f). Советы по использованию и замечания по коду расположены на [одноименное странице](https://www.notion.so/paveloom/2f2d064416b841c0adc08dbd5b97cc76).
+[Вся документация](https://www.notion.so/B1-fefcaf42ddf541d4b11cfcab63c2f018) организована с помощью [Notion](https://www.notion.so). Подробная информация о правилах и переменных, описанных в шаблоне, представлена на соответствующей [странице](https://www.notion.so/paveloom/82548a38726849838e9437f9c44770d7). Описание правил указания зависимостей между программными единицами в make-файле представлено на странице [О зависимостях и структуре исходных файлов](https://www.notion.so/paveloom/6e47b74db4cf4e9380262db831a69a5f). Советы по использованию и замечания по коду расположены на [одноименное странице](https://www.notion.so/paveloom/a566c6295b924561a1c5d43e1013a677).
 
 Автор: [Павел Соболев](http://paveloom.tk)

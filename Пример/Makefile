@@ -4,8 +4,8 @@
      ## Репозиторий на GitHub: https://github.com/Paveloom/B1
      ## Документация: https://www.notion.so/paveloom/B1-fefcaf42ddf541d4b11cfcab63c2f018
 
-     ## Версия релиза: 2.1.3
-     ## Версия документации: 2.1.0
+     ## Версия релиза: 2.2.0
+     ## Версия документации: 2.2.0
 
      ## Автор: Павел Соболев (http://paveloom.tk)
 
@@ -16,18 +16,22 @@
      # Настройки make-файла
 
      ## Имя координатора
-     make_name := make
+     make := make
 
-     ## Заглушка на вывод сообщений указанными правилами
-     ## (без указания имён подавляет вывод со стороны make-файла у всех правил)
+     ## Указание оболочки
+     SHELL := /bin/bash
 
+     ## Указание make-файлу выполнять все правила в одном вызове оболочки
+     .ONESHELL :
+
+     ## Заглушка на вывод информации указанным правилам
      .SILENT :
 
      ## Правила-псевдоцели
-     .PHONY : result, result-r, result-d, result-c, clean
+     .PHONY : result, result-r, result-d, result-c, clean, archive
 
      ## Правило, выполняющееся при вызове координатора без аргументов
-     ALL : result-r
+     ALL : result
 
      # Настройки компиляции программ
 
@@ -38,7 +42,7 @@
      module_flag := -J
 
      ## Расширение исходных файлов
-     pattern := f95
+     pattern := f90
 
      ## Режим отладки (при значении true использует флаги opt_debug, при другом значении — opt_production)
      debugging := true
@@ -46,13 +50,13 @@
      ## Флаги для отладки
      opt_debug := -Og -g -Wall -Wextra -Warray-temporaries -Wcharacter-truncation -Wconversion-extra \
                   -Wimplicit-interface -Wimplicit-procedure -Wintrinsics-std \
-                  -Wreal-q-constant -Wsurprising -Wunderflow -Wuse-without-only -Walign-commons \
-                  -Wfunction-elimination -Wrealloc-lhs -Wrealloc-lhs-all -Werror \
+                  -Wreal-q-constant -Wsurprising -Wunderflow -Walign-commons \
+                  -Wfunction-elimination -Wrealloc-lhs -Wrealloc-lhs-all \
                   -fbacktrace -ffree-line-length-0 -fcheck=all \
-                  -ffpe-trap=invalid,zero,overflow,underflow -pedantic-errors -std=f2008
+                  -ffpe-trap=invalid,zero,overflow,underflow -pedantic-errors -std=f2018
 
      ## Флаги для финальной сборки
-     opt_production := -Ofast
+     opt_production := -Ofast -ffree-line-length-0
 
      ## Имя главной программы
      main_name := main
@@ -61,7 +65,7 @@
      use_input := false
 
      ## Использовать output файл?
-     use_output := true
+     use_output := false
 
      ## Сохранять собранную программу при очистке?
      save_main := false
@@ -129,52 +133,49 @@
 	        touch input
 
      result : $(main_name)
-	         if [ "true" = "$(use_input)" ]; then\
-	              $(make_name) input;\
-	              if [ "true" = "$(use_output)" ]; then\
-	                   time ./$< < input > output;\
-	              else\
-	                   time ./$< < input;\
-	              fi\
-	         else\
-	              if [ "true" = "$(use_output)" ]; then\
-	                   time ./$< > output;\
-	              else\
-	                   time ./$<;\
-	              fi\
+	         if [ "true" = "$(use_input)" ]; then
+	              $(make) input;
+	              if [ "true" = "$(use_output)" ]; then
+	                   time ./$< < input > output;
+	              else
+	                   time ./$< < input;
+	              fi
+	         else
+	              if [ "true" = "$(use_output)" ]; then
+	                   time ./$< > output;
+	              else
+	                   time ./$<;
+	              fi
 	         fi
 
      result-r :
-	           if [ "true" != "$(use_output)" ]; then\
-	                echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
-	                exit 1;\
+	           if [ "true" != "$(use_output)" ]; then
+	                echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;
+	                exit 1;
 	           fi
-	           $(make_name) result
+	           $(make) result
 	           cat output
 
      result-d :
-	           $(make_name) result
-	           $(make_name) clean
+	           $(make) result
+	           $(make) clean
 
      result-c :
-	           if [ "true" != "$(use_output)" ]; then\
-	                echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;\
-	                exit 1;\
+	           if [ "true" != "$(use_output)" ]; then
+	                echo; echo "Вы не можете использовать это правило, пока значение переменной use_output != true."; echo;
+	                exit 1;
 	           fi
-	           $(make_name) result-r
-	           $(make_name) clean
+	           $(make) result-r
+	           $(make) clean
 
      # Правило для очистки
-
      clean :
-	        if [ "true" = "$(save_main)" ]; then\
-	             rm -f $(obj_main) $(obj_mod) $(mod);\
-	        else\
-	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);\
+	        if [ "true" = "$(save_main)" ]; then
+	             rm -f $(obj_main) $(obj_mod) $(mod);
+	        else
+	             rm -f $(obj_main) $(obj_mod) $(mod) $(main_name);
 	        fi
 
      # Правило для создания архивов
-
      archive :
-	          zip -q "Примеры архивов/Makefile.zip" Makefile
-	          cd Исходники/ && find . -path '*/.*' -prune -o -type f -print | zip ../Примеры\ архивов/Исходники.zip -FS -q -@
+	          find Исходники/ -path '*/.*' -prune -o -type f -print | zip Архивы/Исходники.zip -FS -q -@
