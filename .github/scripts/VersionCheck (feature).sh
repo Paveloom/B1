@@ -193,11 +193,16 @@ if [ $CURRENT_TAG == $MASTER_TAG ]; then
 
 fi
 
-# Избегание точек в текущем теге
-CURRENT_TAG="$(echo $CURRENT_TAG | sed "s/$CURRENT_PREFIX//" | sed 's/v//' | sed 's/\./\\./g')"
+# Проверка, совпадают ли теги в README.md
+if ! grep -q "releases/tag/r$R_CURRENT_TAG" README.md; then
 
-# Проверка, совпадает ли другой тег в README.md
-if ! grep -q "releases/tag/$CURRENT_PREFIX$CURRENT_TAG" README.md; then
+     printf "\n[!] Указанные теги различаются в README.md.\n\n"
+     ERROR_COUNT=$((ERROR_COUNT+1))
+
+fi
+
+D_CURRENT_TAG_DASHES=$(echo $D_CURRENT_TAG | sed 's/\./\-/g')
+if ! grep -q "www.notion.so/paveloom/$D_CURRENT_TAG_DASHES" README.md; then
 
      printf "\n[!] Указанные теги различаются в README.md.\n\n"
      ERROR_COUNT=$((ERROR_COUNT+1))
