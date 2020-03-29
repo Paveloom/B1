@@ -28,7 +28,7 @@
      .SILENT :
 
      ## Правила-псевдоцели
-     .PHONY : git, git-am, new, del, final, git-new, git-clean, archive
+     .PHONY : git, git-am, new, del, final, git-new, git-clean, version, archive
 
      ## Правило, выполняющееся при вызове координатора без аргументов
      ALL : git
@@ -191,6 +191,11 @@
      ## Правило для удаления репозитория в текущей директории
      git-clean :
 	            rm -rf .git
+
+     # Правило для изменения версий Make-файлов
+     version :
+	          bash .github/scripts/VersionChange.sh
+	          $(make) archive
 
      # Правило для создания архивов
      archive :
